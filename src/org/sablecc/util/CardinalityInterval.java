@@ -201,7 +201,7 @@ public final class CardinalityInterval
     public void inANumberManyOperator(
             ANumberManyOperator node) {
 
-        this.lowerBound = new Bound(node.getNumber().getText());
+        this.lowerBound = new Bound(node.getDecNumber().getText());
         this.upperBound = this.lowerBound;
     }
 
@@ -217,7 +217,7 @@ public final class CardinalityInterval
     public void inAAtLeastManyOperator(
             AAtLeastManyOperator node) {
 
-        this.lowerBound = new Bound(node.getNumber().getText());
+        this.lowerBound = new Bound(node.getDecNumber().getText());
         this.upperBound = Bound.MAX;
     }
 

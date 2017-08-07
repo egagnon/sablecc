@@ -240,7 +240,7 @@ public class Type {
                     ANumberManyOperator node) {
 
                 Type.this.minMultiplicity = new BigInteger(
-                        node.getNumber().getText());
+                        node.getDecNumber().getText());
                 Type.this.maxMultiplicity = Type.this.minMultiplicity;
                 Type.this.isList = true;
             }
@@ -268,7 +268,7 @@ public class Type {
                     AAtLeastManyOperator node) {
 
                 Type.this.minMultiplicity = new BigInteger(
-                        node.getNumber().getText());
+                        node.getDecNumber().getText());
                 Type.this.maxMultiplicity = null;
                 Type.this.isList = true;
             }

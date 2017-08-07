@@ -139,10 +139,9 @@ Tokens
   char = ''' (string_char | string_escape) ''';
   identifier_string = ''' normal_identifier ''';
   string = ''' (string_char | string_escape)+ ''';
-  number = decimal_digit+;
 
-  dec_char = '#' '-'? decimal_digit+;
-  hex_char = '#' '-'? x hexadecimal_digit+;
+  dec_number = decimal_digit+;
+  hex_number = '0' x hexadecimal_digit+;
 
   l_par = '(';
   r_par =')';
@@ -171,12 +170,11 @@ Tokens
   ctrl_z = 0x001A;
 
   invalid_keyword = ['A'..'Z'] ascii_id_continue*;
-  invalid_number = decimal_digit ascii_id_continue*;
+  invalid_hex_number = '0' x ascii_id_continue*;
+  invalid_dec_number = decimal_digit ascii_id_continue*;
   invalid_normal_identifier = ascii_id_continue+;
   invalid_rich_identifier = '<' ascii_id_continue*;
   invalid_string = ''' (string_char | string_escape)*;
-  invalid_hex_char = '#' '-'? x ascii_id_continue*;
-  invalid_dec_char = '#' '-'? ascii_id_continue*;
   invalid_alternative_name = '{' '<'? ascii_id_continue*;
   invalid_element_name = '[' '<'? ascii_id_continue*;
 
@@ -273,11 +271,11 @@ Productions
       {char} char
         {-> New expression.char(char) }
     |
-      {dec} dec_char
-        {-> New expression.dec(dec_char) }
+      {dec} dec_number
+        {-> New expression.dec(dec_number) }
     |
-      {hex} hex_char
-        {-> New expression.hex(hex_char) }
+      {hex} hex_number
+        {-> New expression.hex(hex_number) }
     |
       {identifier_string} identifier_string
         {-> New expression.identifier_string(identifier_string) }
@@ -322,9 +320,9 @@ Productions
     |
       {char} char
     |
-      {dec} dec_char
+      {dec} dec_number
     |
-      {hex} hex_char
+      {hex} hex_number
     ;
 
   unary_operator
@@ -340,11 +338,11 @@ Productions
     |
       {one_or_more} plus
     |
-      {number} caret number
+      {number} caret dec_number
     |
-      {interval} caret [from]:number two_dots [to]:number
+      {interval} caret [from]:dec_number two_dots [to]:dec_number
     |
-      {at_least} caret number three_dots
+      {at_least} caret dec_number three_dots
     ;
 
   parser
@@ -597,8 +595,8 @@ Abstract Syntax Tree
     {empty_string} empty_string |
     {identifier_char} identifier_char |
     {char} char |
-    {dec} dec_char |
-    {hex} hex_char |
+    {dec} dec_number |
+    {hex} hex_number |
     {identifier_string} identifier_string |
     {string} string |
     {any} any_keyword |
@@ -616,8 +614,8 @@ Abstract Syntax Tree
   character =
     {identifier_char} identifier_char |
     {char} char |
-    {dec} dec_char |
-    {hex} hex_char;
+    {dec} dec_number |
+    {hex} hex_number;
 
   parser =
     syntax_keyword [contexts]:context*;
@@ -668,9 +666,9 @@ Abstract Syntax Tree
   many_operator =
     {zero_or_more} star |
     {one_or_more} plus |
-    {number} caret number |
-    {interval} caret [from]:number two_dots [to]:number |
-    {at_least} caret number three_dots;
+    {number} caret dec_number |
+    {interval} caret [from]:dec_number two_dots [to]:dec_number |
+    {at_least} caret dec_number three_dots;
 
   precedence_rule =
     {left} left_keyword [identifiers]:identifier* |
