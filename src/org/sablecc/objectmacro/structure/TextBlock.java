@@ -22,7 +22,8 @@ import org.sablecc.objectmacro.exception.*;
 import org.sablecc.objectmacro.syntax3.node.*;
 
 public class TextBlock
-        extends Scope {
+        extends
+        Scope {
 
     private final ATextBlock declaration;
 

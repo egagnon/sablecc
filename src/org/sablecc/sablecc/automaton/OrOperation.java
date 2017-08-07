@@ -32,7 +32,7 @@ class OrOperation {
 
     private Automaton rightAutomaton;
 
-    private Map<State, State> oldStateToNewStateMap = new HashMap<State, State>();
+    private Map<State, State> oldStateToNewStateMap = new HashMap<>();
 
     private AlphabetMergeResult alphabetMergeResult;
 
@@ -56,8 +56,8 @@ class OrOperation {
             throw new InternalException("invalid operation");
         }
 
-        this.alphabetMergeResult = leftAutomaton.getAlphabet().mergeWith(
-                rightAutomaton.getAlphabet());
+        this.alphabetMergeResult = leftAutomaton.getAlphabet()
+                .mergeWith(rightAutomaton.getAlphabet());
         this.newAlphabet = this.alphabetMergeResult.getNewAlphabet();
         this.newAutomaton = new Automaton(this.newAlphabet);
 
@@ -66,7 +66,7 @@ class OrOperation {
         this.rightAutomaton = rightAutomaton
                 .withMergedAlphabet(this.alphabetMergeResult);
 
-        SortedSet<Acceptation> acceptations = new TreeSet<Acceptation>();
+        SortedSet<Acceptation> acceptations = new TreeSet<>();
         acceptations.addAll(this.leftAutomaton.getAcceptations());
         acceptations.addAll(this.rightAutomaton.getAcceptations());
         for (Acceptation acceptation : acceptations) {
@@ -76,14 +76,12 @@ class OrOperation {
         addStatesAndTransitions(this.leftAutomaton);
         addStatesAndTransitions(this.rightAutomaton);
 
-        this.newAutomaton.getStartState().addTransition(
-                null,
-                this.oldStateToNewStateMap.get(this.leftAutomaton
-                        .getStartState()));
-        this.newAutomaton.getStartState().addTransition(
-                null,
-                this.oldStateToNewStateMap.get(this.rightAutomaton
-                        .getStartState()));
+        this.newAutomaton.getStartState().addTransition(null,
+                this.oldStateToNewStateMap
+                        .get(this.leftAutomaton.getStartState()));
+        this.newAutomaton.getStartState().addTransition(null,
+                this.oldStateToNewStateMap
+                        .get(this.rightAutomaton.getStartState()));
 
         this.newAutomaton.stabilize();
     }

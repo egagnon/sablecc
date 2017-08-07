@@ -85,10 +85,10 @@ enum Option {
     private String helpMessage;
 
     /** A mapping from each short name to its option. */
-    private static final SortedMap<String, Option> shortNameMap = new TreeMap<String, Option>();
+    private static final SortedMap<String, Option> shortNameMap = new TreeMap<>();
 
     /** A mapping from each long name to its option. */
-    private static final SortedMap<String, Option> longNameMap = new TreeMap<String, Option>();
+    private static final SortedMap<String, Option> longNameMap = new TreeMap<>();
 
     /**
      * Checks that there are no duplicate option names.
@@ -98,22 +98,22 @@ enum Option {
 
             if (option.shortName != null) {
 
-                if (shortNameMap.containsKey(option.shortName)) {
-                    throw new InternalException("duplicate short name: "
-                            + option.shortName);
+                if (Option.shortNameMap.containsKey(option.shortName)) {
+                    throw new InternalException(
+                            "duplicate short name: " + option.shortName);
                 }
 
-                shortNameMap.put(option.shortName, option);
+                Option.shortNameMap.put(option.shortName, option);
             }
 
             if (option.longName != null) {
 
-                if (longNameMap.containsKey(option.longName)) {
-                    throw new InternalException("duplicate long name: "
-                            + option.longName);
+                if (Option.longNameMap.containsKey(option.longName)) {
+                    throw new InternalException(
+                            "duplicate long name: " + option.longName);
                 }
 
-                longNameMap.put(option.longName, option);
+                Option.longNameMap.put(option.longName, option);
             }
         }
     }
@@ -166,8 +166,9 @@ enum Option {
         String argument = "-" + shortName;
 
         try {
-            Start ast = new Parser(new Lexer(new PushbackReader(
-                    new StringReader(argument), 1024))).parse();
+            Start ast = new Parser(new Lexer(
+                    new PushbackReader(new StringReader(argument), 1024)))
+                            .parse();
 
             // argument should be short options
             AShortOptionsArgument shortOptionsArgument = (AShortOptionsArgument) ast
@@ -201,8 +202,9 @@ enum Option {
         String argument = "--" + longName;
 
         try {
-            Start ast = new Parser(new Lexer(new PushbackReader(
-                    new StringReader(argument), 1024))).parse();
+            Start ast = new Parser(new Lexer(
+                    new PushbackReader(new StringReader(argument), 1024)))
+                            .parse();
 
             // argument should be long option
             ALongOptionArgument longOptionArgument = (ALongOptionArgument) ast
@@ -268,7 +270,7 @@ enum Option {
     static Option getShortOption(
             String shortName) {
 
-        return shortNameMap.get(shortName);
+        return Option.shortNameMap.get(shortName);
     }
 
     /**
@@ -277,7 +279,7 @@ enum Option {
     static Option getLongOption(
             String longName) {
 
-        return longNameMap.get(longName);
+        return Option.longNameMap.get(longName);
     }
 
     /**
@@ -417,7 +419,8 @@ enum Option {
                 }
             }
 
-            for (int i = line.toString().length(); i < longestPrefixLength; i++) {
+            for (int i = line.toString()
+                    .length(); i < longestPrefixLength; i++) {
                 line.append(" ");
             }
 

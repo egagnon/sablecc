@@ -23,7 +23,8 @@ import org.sablecc.exception.*;
  * A rich symbol is a symbol augmented with lookahead information.
  */
 public class RichSymbol
-        implements Comparable<RichSymbol> {
+        implements
+        Comparable<RichSymbol> {
 
     /**
      * The end lookahead rich symbol.

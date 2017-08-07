@@ -8,11 +8,11 @@ public class MTextInsertPart {
 
     private final MFile mFile;
 
-    private final List<Object> eTextInsert = new LinkedList<Object>();
+    private final List<Object> eTextInsert = new LinkedList<>();
 
-    private final List<Object> eTextInsertString = new LinkedList<Object>();
+    private final List<Object> eTextInsertString = new LinkedList<>();
 
-    private final List<Object> eTextInsertDestructor = new LinkedList<Object>();
+    private final List<Object> eTextInsertDestructor = new LinkedList<>();
 
     MTextInsertPart(
             MFile mFile) {

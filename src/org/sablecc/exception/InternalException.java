@@ -30,7 +30,8 @@ package org.sablecc.exception;
  */
 @SuppressWarnings("serial")
 public class InternalException
-        extends RuntimeException {
+        extends
+        RuntimeException {
 
     /**
      * Constructs an internal exception with the provided error message.

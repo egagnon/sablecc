@@ -23,7 +23,8 @@ import org.sablecc.objectmacro.syntax3.analysis.*;
 import org.sablecc.objectmacro.syntax3.node.*;
 
 public class VarVerifier
-        extends DepthFirstAdapter {
+        extends
+        DepthFirstAdapter {
 
     private final GlobalIndex globalIndex;
 
@@ -44,8 +45,8 @@ public class VarVerifier
             AMacro node) {
 
         if (this.currentScope != null) {
-            this.currentScope = ((Macro) this.currentScope).getMacro(node
-                    .getName());
+            this.currentScope = ((Macro) this.currentScope)
+                    .getMacro(node.getName());
         }
         else {
             this.currentScope = this.globalIndex.getTopMacro(node.getName());

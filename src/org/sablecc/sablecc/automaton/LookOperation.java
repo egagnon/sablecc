@@ -65,7 +65,7 @@ class LookOperation {
                 normalAutomaton.getAlphabet());
         lookaheadAutomaton.addAcceptation(Acceptation.ACCEPT);
 
-        Map<State, State> normalStateToLookaheadStateMap = new HashMap<State, State>();
+        Map<State, State> normalStateToLookaheadStateMap = new HashMap<>();
 
         for (State normalState : normalAutomaton.getStates()) {
             State lookaheadState;

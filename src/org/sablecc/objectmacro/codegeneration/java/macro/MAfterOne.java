@@ -8,7 +8,7 @@ public class MAfterOne {
 
     private final MExpandInsertPart mExpandInsertPart;
 
-    private final List<Object> eInlineText_ParamInsert_TextInsert = new LinkedList<Object>();
+    private final List<Object> eInlineText_ParamInsert_TextInsert = new LinkedList<>();
 
     MAfterOne(
             MExpandInsertPart mExpandInsertPart) {

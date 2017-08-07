@@ -25,31 +25,31 @@ import org.sablecc.util.*;
 
 class MinimalOperation {
 
-    private Set<Group> groups = new LinkedHashSet<Group>();
+    private Set<Group> groups = new LinkedHashSet<>();
 
     private Group deadEndGroup;
 
-    private WorkSet<Group> workSet = new WorkSet<Group>();
+    private WorkSet<Group> workSet = new WorkSet<>();
 
     private boolean isModified;
 
-    private SortedMap<State, Group> groupMap = new TreeMap<State, Group>();
+    private SortedMap<State, Group> groupMap = new TreeMap<>();
 
     private Alphabet newAlphabet;
 
-    private SortedMap<Symbol, Symbol> oldSymbolToNewSymbolMap = new TreeMap<Symbol, Symbol>();
+    private SortedMap<Symbol, Symbol> oldSymbolToNewSymbolMap = new TreeMap<>();
 
-    private SortedMap<Symbol, SortedSet<Symbol>> newSymbolToOldSymbolsMap = new TreeMap<Symbol, SortedSet<Symbol>>();
+    private SortedMap<Symbol, SortedSet<Symbol>> newSymbolToOldSymbolsMap = new TreeMap<>();
 
-    private SortedSet<RichSymbol> newRichSymbols = new TreeSet<RichSymbol>();
+    private SortedSet<RichSymbol> newRichSymbols = new TreeSet<>();
 
     private Automaton newAutomaton;
 
-    private SortedMap<State, Group> newStateToGroupMap = new TreeMap<State, Group>();
+    private SortedMap<State, Group> newStateToGroupMap = new TreeMap<>();
 
-    private Map<Group, State> groupToNewStateMap = new HashMap<Group, State>();
+    private Map<Group, State> groupToNewStateMap = new HashMap<>();
 
-    private SortedSet<State> newStates = new TreeSet<State>();
+    private SortedSet<State> newStates = new TreeSet<>();
 
     MinimalOperation(
             Automaton oldAutomaton) {
@@ -70,10 +70,10 @@ class MinimalOperation {
     private void computeGroups(
             Automaton oldAutomaton) {
 
-        Set<Pair<Marker, SortedSet<Acceptation>>> specificities = new LinkedHashSet<Pair<Marker, SortedSet<Acceptation>>>();
-        Map<Pair<Marker, SortedSet<Acceptation>>, SortedSet<State>> specificityMap = new HashMap<Pair<Marker, SortedSet<Acceptation>>, SortedSet<State>>();
+        Set<Pair<Marker, SortedSet<Acceptation>>> specificities = new LinkedHashSet<>();
+        Map<Pair<Marker, SortedSet<Acceptation>>, SortedSet<State>> specificityMap = new HashMap<>();
 
-        Pair<Marker, SortedSet<Acceptation>> deadEndSpecificity = new Pair<Marker, SortedSet<Acceptation>>(
+        Pair<Marker, SortedSet<Acceptation>> deadEndSpecificity = new Pair<>(
                 null, new TreeSet<Acceptation>());
 
         specificities.add(deadEndSpecificity);
@@ -83,14 +83,14 @@ class MinimalOperation {
             Marker marker = state.getMarker();
             SortedSet<Acceptation> acceptations = state.getAcceptations();
 
-            Pair<Marker, SortedSet<Acceptation>> specificity = new Pair<Marker, SortedSet<Acceptation>>(
+            Pair<Marker, SortedSet<Acceptation>> specificity = new Pair<>(
                     marker, acceptations);
 
             SortedSet<State> specificityStates = specificityMap
                     .get(specificity);
 
             if (specificityStates == null) {
-                specificityStates = new TreeSet<State>();
+                specificityStates = new TreeSet<>();
 
                 specificities.add(specificity);
                 specificityMap.put(specificity, specificityStates);
@@ -114,7 +114,7 @@ class MinimalOperation {
         while (this.isModified) {
             this.isModified = false;
 
-            this.workSet = new WorkSet<Group>();
+            this.workSet = new WorkSet<>();
             for (Group group : this.groups) {
                 this.workSet.add(group);
             }
@@ -132,11 +132,11 @@ class MinimalOperation {
         // identify, for each symbol, all group pairs that are joined by a
         // transition on this symbol
 
-        SortedMap<RichSymbol, Set<Pair<Group, Group>>> richSymbolToGroupPairSetMap = new TreeMap<RichSymbol, Set<Pair<Group, Group>>>();
+        SortedMap<RichSymbol, Set<Pair<Group, Group>>> richSymbolToGroupPairSetMap = new TreeMap<>();
 
         for (Group sourceGroup : this.groups) {
             for (Symbol symbol : oldAutomaton.getAlphabet().getSymbols()) {
-                SortedSet<RichSymbol> richSymbols = new TreeSet<RichSymbol>();
+                SortedSet<RichSymbol> richSymbols = new TreeSet<>();
                 richSymbols.add(symbol.getNormalRichSymbol());
                 richSymbols.add(symbol.getLookaheadRichSymbol());
                 for (RichSymbol richSymbol : richSymbols) {
@@ -160,19 +160,18 @@ class MinimalOperation {
                             .get(richSymbol);
 
                     if (groupPairSet == null) {
-                        groupPairSet = new LinkedHashSet<Pair<Group, Group>>();
+                        groupPairSet = new LinkedHashSet<>();
                         richSymbolToGroupPairSetMap.put(richSymbol,
                                 groupPairSet);
                     }
 
-                    groupPairSet.add(new Pair<Group, Group>(sourceGroup,
-                            targetGroup));
+                    groupPairSet.add(new Pair<>(sourceGroup, targetGroup));
                 }
             }
         }
 
-        Set<Pair<Set<Pair<Group, Group>>, Set<Pair<Group, Group>>>> groupPairSetPairs = new LinkedHashSet<Pair<Set<Pair<Group, Group>>, Set<Pair<Group, Group>>>>();
-        Map<Pair<Set<Pair<Group, Group>>, Set<Pair<Group, Group>>>, SortedSet<Symbol>> groupPairSetPairToSymbolsMap = new HashMap<Pair<Set<Pair<Group, Group>>, Set<Pair<Group, Group>>>, SortedSet<Symbol>>();
+        Set<Pair<Set<Pair<Group, Group>>, Set<Pair<Group, Group>>>> groupPairSetPairs = new LinkedHashSet<>();
+        Map<Pair<Set<Pair<Group, Group>>, Set<Pair<Group, Group>>>, SortedSet<Symbol>> groupPairSetPairToSymbolsMap = new HashMap<>();
 
         for (Symbol symbol : oldAutomaton.getAlphabet().getSymbols()) {
             Set<Pair<Group, Group>> normalSet = richSymbolToGroupPairSetMap
@@ -180,14 +179,14 @@ class MinimalOperation {
             Set<Pair<Group, Group>> lookaheadSet = richSymbolToGroupPairSetMap
                     .get(symbol.getLookaheadRichSymbol());
 
-            Pair<Set<Pair<Group, Group>>, Set<Pair<Group, Group>>> groupPairSetPair = new Pair<Set<Pair<Group, Group>>, Set<Pair<Group, Group>>>(
+            Pair<Set<Pair<Group, Group>>, Set<Pair<Group, Group>>> groupPairSetPair = new Pair<>(
                     normalSet, lookaheadSet);
 
             SortedSet<Symbol> symbols = groupPairSetPairToSymbolsMap
                     .get(groupPairSetPair);
 
             if (symbols == null) {
-                symbols = new TreeSet<Symbol>();
+                symbols = new TreeSet<>();
 
                 groupPairSetPairs.add(groupPairSetPair);
                 groupPairSetPairToSymbolsMap.put(groupPairSetPair, symbols);
@@ -197,12 +196,12 @@ class MinimalOperation {
         }
 
         // merge symbols and create the new alphabet
-        SortedSet<Symbol> newSymbols = new TreeSet<Symbol>();
+        SortedSet<Symbol> newSymbols = new TreeSet<>();
 
         for (Pair<Set<Pair<Group, Group>>, Set<Pair<Group, Group>>> pair : groupPairSetPairs) {
             SortedSet<Symbol> symbols = groupPairSetPairToSymbolsMap.get(pair);
 
-            Set<Set<Pair<Group, Group>>> set = new LinkedHashSet<Set<Pair<Group, Group>>>();
+            Set<Set<Pair<Group, Group>>> set = new LinkedHashSet<>();
             set.add(pair.getLeft());
             set.add(pair.getRight());
 
@@ -243,7 +242,7 @@ class MinimalOperation {
 
         this.newAutomaton = new Automaton(this.newAlphabet);
 
-        WorkSet<State> workSet = new WorkSet<State>();
+        WorkSet<State> workSet = new WorkSet<>();
 
         {
             Group startGroup = getGroup(oldAutomaton.getStartState());

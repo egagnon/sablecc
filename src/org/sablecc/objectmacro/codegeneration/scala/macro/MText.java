@@ -10,15 +10,15 @@ public class MText {
 
     private final MText mText = this;
 
-    private final List<Object> ePackageDeclaration = new LinkedList<Object>();
+    private final List<Object> ePackageDeclaration = new LinkedList<>();
 
-    private final List<Object> eParamClass_AncestorParamClass = new LinkedList<Object>();
+    private final List<Object> eParamClass_AncestorParamClass = new LinkedList<>();
 
-    private final List<Object> eSelfRefText = new LinkedList<Object>();
+    private final List<Object> eSelfRefText = new LinkedList<>();
 
-    private final List<Object> eParamRef = new LinkedList<Object>();
+    private final List<Object> eParamRef = new LinkedList<>();
 
-    private final List<Object> eStringPart_EolPart_ParamInsertPart_TextInsertPart = new LinkedList<Object>();
+    private final List<Object> eStringPart_EolPart_ParamInsertPart_TextInsertPart = new LinkedList<>();
 
     public MText(
             String pName) {
@@ -49,7 +49,8 @@ public class MText {
     public MAncestorParamClass newAncestorParamClass(
             String pName) {
 
-        MAncestorParamClass lAncestorParamClass = new MAncestorParamClass(pName);
+        MAncestorParamClass lAncestorParamClass = new MAncestorParamClass(
+                pName);
         this.eParamClass_AncestorParamClass.add(lAncestorParamClass);
         return lAncestorParamClass;
     }

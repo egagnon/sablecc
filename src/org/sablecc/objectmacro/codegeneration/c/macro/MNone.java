@@ -10,11 +10,11 @@ public class MNone {
 
     private final MExpandInsertPart mExpandInsertPart;
 
-    private final List<Object> eTextInsert = new LinkedList<Object>();
+    private final List<Object> eTextInsert = new LinkedList<>();
 
-    private final List<Object> eInlineText_ParamInsert_TextInsertString = new LinkedList<Object>();
+    private final List<Object> eInlineText_ParamInsert_TextInsertString = new LinkedList<>();
 
-    private final List<Object> eTextInsertDestructor = new LinkedList<Object>();
+    private final List<Object> eTextInsertDestructor = new LinkedList<>();
 
     MNone(
             MFile mFile,

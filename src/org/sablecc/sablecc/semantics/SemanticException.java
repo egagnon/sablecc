@@ -22,7 +22,8 @@ import org.sablecc.sablecc.semantics.errormessage.*;
 import org.sablecc.sablecc.syntax3.node.*;
 
 public class SemanticException
-        extends CompilerException {
+        extends
+        CompilerException {
 
     private Token location;
 
@@ -38,8 +39,9 @@ public class SemanticException
     public static SemanticException notImplementedError(
             Token location) {
 
-        return new SemanticException(new MNotImplementedError(
-                location.getLine() + "", location.getPos() + "").toString(),
+        return new SemanticException(
+                new MNotImplementedError(location.getLine() + "",
+                        location.getPos() + "").toString(),
                 location);
     }
 

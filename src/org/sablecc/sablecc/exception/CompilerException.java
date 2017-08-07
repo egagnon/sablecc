@@ -21,7 +21,8 @@ import org.sablecc.exception.*;
 
 @SuppressWarnings("serial")
 public abstract class CompilerException
-        extends RuntimeException {
+        extends
+        RuntimeException {
 
     protected CompilerException(
             String message) {

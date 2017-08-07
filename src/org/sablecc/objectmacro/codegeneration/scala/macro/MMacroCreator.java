@@ -10,11 +10,11 @@ public class MMacroCreator {
 
     private final MMacroCreator mMacroCreator = this;
 
-    private final List<Object> eParamParam = new LinkedList<Object>();
+    private final List<Object> eParamParam = new LinkedList<>();
 
-    private final List<Object> eParamArg_AncestorArg = new LinkedList<Object>();
+    private final List<Object> eParamArg_AncestorArg = new LinkedList<>();
 
-    private final List<Object> eAddToExpand = new LinkedList<Object>();
+    private final List<Object> eAddToExpand = new LinkedList<>();
 
     public MMacroCreator(
             String pName) {

@@ -10,79 +10,79 @@ public class MFile {
 
     private final MFile mFile = this;
 
-    private final List<Object> eTextH = new LinkedList<Object>();
+    private final List<Object> eTextH = new LinkedList<>();
 
-    private final List<Object> eTextC = new LinkedList<Object>();
+    private final List<Object> eTextC = new LinkedList<>();
 
-    private final List<Object> eMacroH = new LinkedList<Object>();
+    private final List<Object> eMacroH = new LinkedList<>();
 
-    private final List<Object> eMacroC = new LinkedList<Object>();
+    private final List<Object> eMacroC = new LinkedList<>();
 
-    private final List<Object> eInclude = new LinkedList<Object>();
+    private final List<Object> eInclude = new LinkedList<>();
 
-    private final List<Object> eSelfRefH = new LinkedList<Object>();
+    private final List<Object> eSelfRefH = new LinkedList<>();
 
-    private final List<Object> eSelfRefC = new LinkedList<Object>();
+    private final List<Object> eSelfRefC = new LinkedList<>();
 
-    private final List<Object> eParamField = new LinkedList<Object>();
+    private final List<Object> eParamField = new LinkedList<>();
 
-    private final List<Object> eAncestorField = new LinkedList<Object>();
+    private final List<Object> eAncestorField = new LinkedList<>();
 
-    private final List<Object> eExpandField = new LinkedList<Object>();
+    private final List<Object> eExpandField = new LinkedList<>();
 
-    private final List<Object> eExpandDestructor = new LinkedList<Object>();
+    private final List<Object> eExpandDestructor = new LinkedList<>();
 
-    private final List<Object> eMacroCreator = new LinkedList<Object>();
+    private final List<Object> eMacroCreator = new LinkedList<>();
 
-    private final List<Object> eMacroCreatorPrototype = new LinkedList<Object>();
+    private final List<Object> eMacroCreatorPrototype = new LinkedList<>();
 
-    private final List<Object> eParam = new LinkedList<Object>();
+    private final List<Object> eParam = new LinkedList<>();
 
-    private final List<Object> eParamPrototype = new LinkedList<Object>();
+    private final List<Object> eParamPrototype = new LinkedList<>();
 
-    private final List<Object> eParamRef = new LinkedList<Object>();
+    private final List<Object> eParamRef = new LinkedList<>();
 
-    private final List<Object> eParamRefPrototype = new LinkedList<Object>();
+    private final List<Object> eParamRefPrototype = new LinkedList<>();
 
-    private final List<Object> eParamParam = new LinkedList<Object>();
+    private final List<Object> eParamParam = new LinkedList<>();
 
-    private final List<Object> eAncestorParam = new LinkedList<Object>();
+    private final List<Object> eAncestorParam = new LinkedList<>();
 
-    private final List<Object> eParamArg = new LinkedList<Object>();
+    private final List<Object> eParamArg = new LinkedList<>();
 
-    private final List<Object> eAncestorArg = new LinkedList<Object>();
+    private final List<Object> eAncestorArg = new LinkedList<>();
 
-    private final List<Object> eParamConstructorInit = new LinkedList<Object>();
+    private final List<Object> eParamConstructorInit = new LinkedList<>();
 
-    private final List<Object> eAncestorConstructorInit = new LinkedList<Object>();
+    private final List<Object> eAncestorConstructorInit = new LinkedList<>();
 
-    private final List<Object> eExpandConstructorInit = new LinkedList<Object>();
+    private final List<Object> eExpandConstructorInit = new LinkedList<>();
 
-    private final List<Object> eStringPart = new LinkedList<Object>();
+    private final List<Object> eStringPart = new LinkedList<>();
 
-    private final List<Object> eEolPart = new LinkedList<Object>();
+    private final List<Object> eEolPart = new LinkedList<>();
 
-    private final List<Object> eParamInsertPart = new LinkedList<Object>();
+    private final List<Object> eParamInsertPart = new LinkedList<>();
 
-    private final List<Object> eTextInsertPart = new LinkedList<Object>();
+    private final List<Object> eTextInsertPart = new LinkedList<>();
 
-    private final List<Object> eExpandInsertPart = new LinkedList<Object>();
+    private final List<Object> eExpandInsertPart = new LinkedList<>();
 
-    private final List<Object> eTextInsert = new LinkedList<Object>();
+    private final List<Object> eTextInsert = new LinkedList<>();
 
-    private final List<Object> eTextInsertString = new LinkedList<Object>();
+    private final List<Object> eTextInsertString = new LinkedList<>();
 
-    private final List<Object> eTextInsertDestructor = new LinkedList<Object>();
+    private final List<Object> eTextInsertDestructor = new LinkedList<>();
 
-    private final List<Object> eInlineText = new LinkedList<Object>();
+    private final List<Object> eInlineText = new LinkedList<>();
 
-    private final List<Object> eInlineString = new LinkedList<Object>();
+    private final List<Object> eInlineString = new LinkedList<>();
 
-    private final List<Object> eInlineEol = new LinkedList<Object>();
+    private final List<Object> eInlineEol = new LinkedList<>();
 
-    private final List<Object> eParamInsert = new LinkedList<Object>();
+    private final List<Object> eParamInsert = new LinkedList<>();
 
-    private final List<Object> eTextInsertAncestor = new LinkedList<Object>();
+    private final List<Object> eTextInsertAncestor = new LinkedList<>();
 
     public MFile(
             String pFileName) {
@@ -204,7 +204,8 @@ public class MFile {
     public MParamPrototype newParamPrototype(
             String pName) {
 
-        MParamPrototype lParamPrototype = new MParamPrototype(pName, this.mFile);
+        MParamPrototype lParamPrototype = new MParamPrototype(pName,
+                this.mFile);
         this.eParamPrototype.add(lParamPrototype);
         return lParamPrototype;
     }
@@ -384,8 +385,8 @@ public class MFile {
     public MTextInsertAncestor newTextInsertAncestor(
             String pName) {
 
-        MTextInsertAncestor lTextInsertAncestor = new MTextInsertAncestor(
-                pName, this.mFile);
+        MTextInsertAncestor lTextInsertAncestor = new MTextInsertAncestor(pName,
+                this.mFile);
         this.eTextInsertAncestor.add(lTextInsertAncestor);
         return lTextInsertAncestor;
     }

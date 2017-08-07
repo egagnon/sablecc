@@ -17,18 +17,18 @@
 
 package org.sablecc.sablecc.alphabet;
 
-import static org.sablecc.util.UsefulStaticImports.*;
-
 import java.math.*;
 import java.util.*;
 
 import org.sablecc.exception.*;
+import org.sablecc.util.*;
 
 /**
  * A symbol is a non-empty set of non-intersecting, non-adjacent intervals.
  */
 public class Symbol
-        implements Comparable<Symbol> {
+        implements
+        Comparable<Symbol> {
 
     /**
      * The sorted set of non-intersecting, non-adjacent intervals of this
@@ -75,10 +75,10 @@ public class Symbol
         }
 
         // sort intervals
-        SortedSet<Interval> originalSet = new TreeSet<Interval>(intervals);
+        SortedSet<Interval> originalSet = new TreeSet<>(intervals);
 
         // compute minimal set
-        SortedSet<Interval> minimalSet = new TreeSet<Interval>();
+        SortedSet<Interval> minimalSet = new TreeSet<>();
 
         Interval combinedInterval = null;
         for (Interval current : originalSet) {
@@ -121,7 +121,7 @@ public class Symbol
             throw new InternalException("interval must be provided");
         }
 
-        SortedSet<Interval> set = new TreeSet<Interval>();
+        SortedSet<Interval> set = new TreeSet<>();
         set.add(interval);
         this.intervals = Collections.unmodifiableSortedSet(set);
     }
@@ -136,7 +136,7 @@ public class Symbol
             throw new InternalException("bound must be provided");
         }
 
-        SortedSet<Interval> set = new TreeSet<Interval>();
+        SortedSet<Interval> set = new TreeSet<>();
         set.add(new Interval(bound));
         this.intervals = Collections.unmodifiableSortedSet(set);
     }
@@ -292,7 +292,7 @@ public class Symbol
      * then the returned string contains the two character "\x" followed by the
      * hexadecimal value of a symbolized character. Note. You can check the
      * size() of the returned string to know.
-     * */
+     */
     public String getExample() {
 
         for (Interval interval : this.intervals) {
@@ -301,13 +301,15 @@ public class Symbol
                 continue;
             }
             BigInteger i = b.getValue();
-            if (i.compareTo(BI_32) > 0 || i.compareTo(BI_126) < 0) {
+            if (i.compareTo(UsefulStaticImports.BI_32) > 0
+                    || i.compareTo(UsefulStaticImports.BI_126) < 0) {
                 return String.valueOf((char) i.intValue());
             }
         }
         for (Interval interval : this.intervals) {
             BigInteger i = interval.getLowerBound().getValue();
-            if (i.compareTo(BI_32) >= 0 || i.compareTo(BI_126) < 0) {
+            if (i.compareTo(UsefulStaticImports.BI_32) >= 0
+                    || i.compareTo(UsefulStaticImports.BI_126) < 0) {
                 return String.valueOf((char) i.intValue());
             }
         }
@@ -369,7 +371,7 @@ public class Symbol
                     "symbols must contain at least one element");
         }
 
-        Collection<Interval> intervals = new LinkedList<Interval>();
+        Collection<Interval> intervals = new LinkedList<>();
 
         for (Symbol symbol : symbols) {
             intervals.addAll(symbol.getIntervals());

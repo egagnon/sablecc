@@ -25,7 +25,8 @@ import org.sablecc.objectmacro.util.*;
 
 @SuppressWarnings("serial")
 public class CompilerException
-        extends RuntimeException {
+        extends
+        RuntimeException {
 
     private CompilerException(
             String message) {
@@ -64,16 +65,18 @@ public class CompilerException
             String optionName,
             String operandName) {
 
-        return new CompilerException(new MMissingLongOptionOperand(optionName,
-                operandName).toString());
+        return new CompilerException(
+                new MMissingLongOptionOperand(optionName, operandName)
+                        .toString());
     }
 
     public static CompilerException missingShortOptionOperand(
             String optionName,
             String operandName) {
 
-        return new CompilerException(new MMissingShortOptionOperand(optionName,
-                operandName).toString());
+        return new CompilerException(
+                new MMissingShortOptionOperand(optionName, operandName)
+                        .toString());
     }
 
     public static CompilerException invalidLongOption(
@@ -87,8 +90,9 @@ public class CompilerException
             String optionName,
             String operandText) {
 
-        return new CompilerException(new MSpuriousLongOptionOperand(optionName,
-                operandText).toString());
+        return new CompilerException(
+                new MSpuriousLongOptionOperand(optionName, operandText)
+                        .toString());
     }
 
     public static CompilerException invalidShortOption(
@@ -102,8 +106,9 @@ public class CompilerException
             String optionName,
             String operandText) {
 
-        return new CompilerException(new MSpuriousShortOptionOperand(
-                optionName, operandText).toString());
+        return new CompilerException(
+                new MSpuriousShortOptionOperand(optionName, operandText)
+                        .toString());
     }
 
     public static CompilerException unknownTarget(
@@ -127,7 +132,8 @@ public class CompilerException
     public static CompilerException missingMacroFile(
             String fileName) {
 
-        return new CompilerException(new MMissingMacroFile(fileName).toString());
+        return new CompilerException(
+                new MMissingMacroFile(fileName).toString());
     }
 
     public static CompilerException macroNotFile(
@@ -140,31 +146,34 @@ public class CompilerException
             String fileName,
             Throwable cause) {
 
-        return new CompilerException(new MInputError(fileName,
-                cause.getMessage()).toString(), cause);
+        return new CompilerException(
+                new MInputError(fileName, cause.getMessage()).toString(),
+                cause);
     }
 
     public static CompilerException outputError(
             String fileName,
             Throwable cause) {
 
-        return new CompilerException(new MOutputError(fileName,
-                cause.getMessage()).toString(), cause);
+        return new CompilerException(
+                new MOutputError(fileName, cause.getMessage()).toString(),
+                cause);
     }
 
     public static CompilerException unknownMacro(
             TIdentifier identifier) {
 
         return new CompilerException(new MUnknownMacro(identifier.getText(),
-                identifier.getLine() + "", identifier.getPos() + "").toString());
+                identifier.getLine() + "", identifier.getPos() + "")
+                        .toString());
     }
 
     public static CompilerException unknownTextBlock(
             TIdentifier identifier) {
 
-        return new CompilerException(new MUnknownTextBlock(
-                identifier.getText(), identifier.getLine() + "",
-                identifier.getPos() + "").toString());
+        return new CompilerException(new MUnknownTextBlock(identifier.getText(),
+                identifier.getLine() + "", identifier.getPos() + "")
+                        .toString());
     }
 
     public static CompilerException duplicateDeclaration(
@@ -178,8 +187,9 @@ public class CompilerException
 
         return new CompilerException(new MDuplicateDeclaration(name,
                 duplicateDeclaration.getLine() + "",
-                duplicateDeclaration.getPos() + "", firstDeclaration.getLine()
-                        + "", firstDeclaration.getPos() + "").toString());
+                duplicateDeclaration.getPos() + "",
+                firstDeclaration.getLine() + "", firstDeclaration.getPos() + "")
+                        .toString());
     }
 
     public static CompilerException duplicateOption(
@@ -191,10 +201,11 @@ public class CompilerException
             throw new InternalException("name must be identical");
         }
 
-        return new CompilerException(new MDuplicateOption(name, duplicateOption
-                .getName().getLine() + "", duplicateOption.getName().getPos()
-                + "", firstOption.getName().getLine() + "", firstOption
-                .getName().getPos() + "").toString());
+        return new CompilerException(new MDuplicateOption(name,
+                duplicateOption.getName().getLine() + "",
+                duplicateOption.getName().getPos() + "",
+                firstOption.getName().getLine() + "",
+                firstOption.getName().getPos() + "").toString());
     }
 
     public static CompilerException conflictingOption(
@@ -205,10 +216,10 @@ public class CompilerException
         String firstName = conflictingOption.getName().getText();
 
         return new CompilerException(new MConflictingOption(conflictingName,
-                conflictingOption.getName().getLine() + "", conflictingOption
-                        .getName().getPos() + "", firstName, firstOption
-                        .getName().getLine() + "", firstOption.getName()
-                        .getPos() + "").toString());
+                conflictingOption.getName().getLine() + "",
+                conflictingOption.getName().getPos() + "", firstName,
+                firstOption.getName().getLine() + "",
+                firstOption.getName().getPos() + "").toString());
     }
 
     public static CompilerException unknownOption(
@@ -217,8 +228,8 @@ public class CompilerException
         TIdentifier nameId = option.getName();
         String name = nameId.getText();
 
-        return new CompilerException(new MUnknownOption(name, nameId.getLine()
-                + "", nameId.getPos() + "").toString());
+        return new CompilerException(new MUnknownOption(name,
+                nameId.getLine() + "", nameId.getPos() + "").toString());
     }
 
     public static CompilerException endMismatch(
@@ -235,8 +246,9 @@ public class CompilerException
 
         String name = Utils.getVarName(var);
 
-        return new CompilerException(new MUnknownParam(name,
-                var.getLine() + "", var.getPos() + "").toString());
+        return new CompilerException(
+                new MUnknownParam(name, var.getLine() + "", var.getPos() + "")
+                        .toString());
     }
 
     public static CompilerException cyclicReference(
@@ -245,8 +257,8 @@ public class CompilerException
 
         return new CompilerException(new MCyclicReference(reference.getText(),
                 reference.getLine() + "", reference.getPos() + "",
-                context.getText(), context.getLine() + "", context.getPos()
-                        + "").toString());
+                context.getText(), context.getLine() + "",
+                context.getPos() + "").toString());
     }
 
     public static CompilerException unusedTextBlock(
@@ -279,10 +291,10 @@ public class CompilerException
 
         return new CompilerException(
                 new MIncorrectArgumentCount(insertName.getLine() + "",
-                        insertName.getPos() + "", argCount + "", textBlockName
-                                .getText(), textBlockName.getLine() + "",
+                        insertName.getPos() + "", argCount + "",
+                        textBlockName.getText(), textBlockName.getLine() + "",
                         +textBlockName.getPos() + "", paramCount + "")
-                        .toString());
+                                .toString());
     }
 
     public static CompilerException cannotCreateDirectory(

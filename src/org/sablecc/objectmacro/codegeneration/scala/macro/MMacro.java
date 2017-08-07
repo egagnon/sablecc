@@ -10,21 +10,21 @@ public class MMacro {
 
     private final MMacro mMacro = this;
 
-    private final List<Object> ePackageDeclaration = new LinkedList<Object>();
+    private final List<Object> ePackageDeclaration = new LinkedList<>();
 
-    private final List<Object> eImports = new LinkedList<Object>();
+    private final List<Object> eImports = new LinkedList<>();
 
-    private final List<Object> eProtected = new LinkedList<Object>();
+    private final List<Object> eProtected = new LinkedList<>();
 
-    private final List<Object> eParamClass_AncestorParamClass = new LinkedList<Object>();
+    private final List<Object> eParamClass_AncestorParamClass = new LinkedList<>();
 
-    private final List<Object> eSelfRefMacro_CheckParamNotNull_CheckAncestorParamNotNull_ExpandField = new LinkedList<Object>();
+    private final List<Object> eSelfRefMacro_CheckParamNotNull_CheckAncestorParamNotNull_ExpandField = new LinkedList<>();
 
-    private final List<Object> eMacroCreator = new LinkedList<Object>();
+    private final List<Object> eMacroCreator = new LinkedList<>();
 
-    private final List<Object> eParamRef = new LinkedList<Object>();
+    private final List<Object> eParamRef = new LinkedList<>();
 
-    private final List<Object> eStringPart_EolPart_ParamInsertPart_TextInsertPart_ExpandInsertPart = new LinkedList<Object>();
+    private final List<Object> eStringPart_EolPart_ParamInsertPart_TextInsertPart_ExpandInsertPart = new LinkedList<>();
 
     public MMacro(
             String pName) {
@@ -70,7 +70,8 @@ public class MMacro {
     public MAncestorParamClass newAncestorParamClass(
             String pName) {
 
-        MAncestorParamClass lAncestorParamClass = new MAncestorParamClass(pName);
+        MAncestorParamClass lAncestorParamClass = new MAncestorParamClass(
+                pName);
         this.eParamClass_AncestorParamClass.add(lAncestorParamClass);
         return lAncestorParamClass;
     }
@@ -225,8 +226,9 @@ public class MMacro {
             sb.append(System.getProperty("line.separator"));
         }
         for (Object oSelfRefMacro_CheckParamNotNull_CheckAncestorParamNotNull_ExpandField : this.eSelfRefMacro_CheckParamNotNull_CheckAncestorParamNotNull_ExpandField) {
-            sb.append(oSelfRefMacro_CheckParamNotNull_CheckAncestorParamNotNull_ExpandField
-                    .toString());
+            sb.append(
+                    oSelfRefMacro_CheckParamNotNull_CheckAncestorParamNotNull_ExpandField
+                            .toString());
         }
         sb.append(System.getProperty("line.separator"));
         if (this.eMacroCreator.size() > 0) {
@@ -273,8 +275,9 @@ public class MMacro {
                 else {
                     sb.append(System.getProperty("line.separator"));
                 }
-                sb.append(oStringPart_EolPart_ParamInsertPart_TextInsertPart_ExpandInsertPart
-                        .toString());
+                sb.append(
+                        oStringPart_EolPart_ParamInsertPart_TextInsertPart_ExpandInsertPart
+                                .toString());
             }
         }
         sb.append("    sb toString");

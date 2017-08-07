@@ -24,7 +24,8 @@ import org.sablecc.sablecc.syntax3.analysis.*;
 import org.sablecc.sablecc.syntax3.node.*;
 
 public class Alternative
-        extends LocalDeclaration {
+        extends
+        LocalDeclaration {
 
     private Grammar grammar;
 
@@ -195,8 +196,8 @@ public class Alternative
                     });
 
                     if (!this.nameIsCached) {
-                        throw new InternalException("unhandled case: "
-                                + this.declaration);
+                        throw new InternalException(
+                                "unhandled case: " + this.declaration);
                     }
                 }
             }
@@ -235,8 +236,8 @@ public class Alternative
             if (this.location == null) {
                 this.location = this.declaration.getEmptyKeyword();
                 if (this.location == null) {
-                    AElement element = (AElement) this.declaration
-                            .getElements().get(0);
+                    AElement element = (AElement) this.declaration.getElements()
+                            .get(0);
                     this.location = element.getSelectionKeyword();
                     if (this.location == null) {
                         this.location = element.getElementName();
@@ -277,7 +278,7 @@ public class Alternative
         }
 
         this.elements = elements;
-        this.localNameSpace = new LocalNameSpace<Element>(elements);
+        this.localNameSpace = new LocalNameSpace<>(elements);
     }
 
     void setDeclaredTransformation(

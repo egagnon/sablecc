@@ -8,17 +8,17 @@ public class MMacroH {
 
     private final MFile mFile;
 
-    private final List<Object> eInclude = new LinkedList<Object>();
+    private final List<Object> eInclude = new LinkedList<>();
 
-    private final List<Object> eParamField_SelfRefH_AncestorField_ExpandField = new LinkedList<Object>();
+    private final List<Object> eParamField_SelfRefH_AncestorField_ExpandField = new LinkedList<>();
 
-    private final List<Object> eParamParam_AncestorParam = new LinkedList<Object>();
+    private final List<Object> eParamParam_AncestorParam = new LinkedList<>();
 
-    private final List<Object> eMacroCreatorPrototype = new LinkedList<Object>();
+    private final List<Object> eMacroCreatorPrototype = new LinkedList<>();
 
-    private final List<Object> eParamPrototype = new LinkedList<Object>();
+    private final List<Object> eParamPrototype = new LinkedList<>();
 
-    private final List<Object> eParamRefPrototype = new LinkedList<Object>();
+    private final List<Object> eParamRefPrototype = new LinkedList<>();
 
     MMacroH(
             MFile mFile) {
@@ -96,7 +96,8 @@ public class MMacroH {
     public MParamPrototype newParamPrototype(
             String pName) {
 
-        MParamPrototype lParamPrototype = new MParamPrototype(pName, this.mFile);
+        MParamPrototype lParamPrototype = new MParamPrototype(pName,
+                this.mFile);
         this.eParamPrototype.add(lParamPrototype);
         return lParamPrototype;
     }
@@ -152,7 +153,8 @@ public class MMacroH {
         sb.append("  void (*free)(void*);");
         sb.append(System.getProperty("line.separator"));
         for (Object oParamField_SelfRefH_AncestorField_ExpandField : this.eParamField_SelfRefH_AncestorField_ExpandField) {
-            sb.append(oParamField_SelfRefH_AncestorField_ExpandField.toString());
+            sb.append(
+                    oParamField_SelfRefH_AncestorField_ExpandField.toString());
         }
         sb.append("}M");
         sb.append(rFileName());

@@ -24,7 +24,8 @@ import org.sablecc.objectmacro.exception.*;
 import org.sablecc.util.*;
 
 public class IntermediateCodeGenerator
-        extends CodeGenerator {
+        extends
+        CodeGenerator {
 
     private File outputFile;
 
@@ -61,8 +62,8 @@ public class IntermediateCodeGenerator
 
         if (!destinationDirectory.exists()) {
             if (!destinationDirectory.mkdirs()) {
-                CompilerException.cannotCreateDirectory(destinationDirectory
-                        .toString());
+                CompilerException
+                        .cannotCreateDirectory(destinationDirectory.toString());
             }
         }
 

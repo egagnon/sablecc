@@ -24,7 +24,8 @@ import org.sablecc.objectmacro.syntax3.analysis.*;
 import org.sablecc.objectmacro.syntax3.node.*;
 
 public class CyclicTextBlockDetector
-        extends DepthFirstAdapter {
+        extends
+        DepthFirstAdapter {
 
     private final GlobalIndex globalIndex;
 
@@ -45,8 +46,8 @@ public class CyclicTextBlockDetector
             AMacro node) {
 
         if (this.currentScope != null) {
-            this.currentScope = ((Macro) this.currentScope).getMacro(node
-                    .getName());
+            this.currentScope = ((Macro) this.currentScope)
+                    .getMacro(node.getName());
         }
         else {
             this.currentScope = this.globalIndex.getTopMacro(node.getName());
@@ -87,8 +88,8 @@ public class CyclicTextBlockDetector
         TextBlock insertedTextBlock = this.currentScope.getTextInsert(node)
                 .getInsertedTextBlock();
 
-        if (insertedTextBlock.getIndirectlyReferencedTextBlocks().contains(
-                this.currentScope)) {
+        if (insertedTextBlock.getIndirectlyReferencedTextBlocks()
+                .contains(this.currentScope)) {
             throw CompilerException.cyclicReference(node.getName(),
                     this.currentScope.getNameDeclaration());
         }

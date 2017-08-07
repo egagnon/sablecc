@@ -8,15 +8,15 @@ public class MTextC {
 
     private final MFile mFile;
 
-    private final List<Object> eParamParam_AncestorParam = new LinkedList<Object>();
+    private final List<Object> eParamParam_AncestorParam = new LinkedList<>();
 
-    private final List<Object> eParamConstructorInit_SelfRefC_AncestorConstructorInit = new LinkedList<Object>();
+    private final List<Object> eParamConstructorInit_SelfRefC_AncestorConstructorInit = new LinkedList<>();
 
-    private final List<Object> eParam = new LinkedList<Object>();
+    private final List<Object> eParam = new LinkedList<>();
 
-    private final List<Object> eParamRef = new LinkedList<Object>();
+    private final List<Object> eParamRef = new LinkedList<>();
 
-    private final List<Object> eStringPart_EolPart_ParamInsertPart_TextInsertPart = new LinkedList<Object>();
+    private final List<Object> eStringPart_EolPart_ParamInsertPart_TextInsertPart = new LinkedList<>();
 
     MTextC(
             MFile mFile) {

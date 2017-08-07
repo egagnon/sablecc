@@ -8,15 +8,15 @@ public class MTextH {
 
     private final MFile mFile;
 
-    private final List<Object> eInclude = new LinkedList<Object>();
+    private final List<Object> eInclude = new LinkedList<>();
 
-    private final List<Object> eParamField_SelfRefH_AncestorField = new LinkedList<Object>();
+    private final List<Object> eParamField_SelfRefH_AncestorField = new LinkedList<>();
 
-    private final List<Object> eParamParam_AncestorParam = new LinkedList<Object>();
+    private final List<Object> eParamParam_AncestorParam = new LinkedList<>();
 
-    private final List<Object> eParamPrototype = new LinkedList<Object>();
+    private final List<Object> eParamPrototype = new LinkedList<>();
 
-    private final List<Object> eParamRefPrototype = new LinkedList<Object>();
+    private final List<Object> eParamRefPrototype = new LinkedList<>();
 
     MTextH(
             MFile mFile) {
@@ -77,7 +77,8 @@ public class MTextH {
     public MParamPrototype newParamPrototype(
             String pName) {
 
-        MParamPrototype lParamPrototype = new MParamPrototype(pName, this.mFile);
+        MParamPrototype lParamPrototype = new MParamPrototype(pName,
+                this.mFile);
         this.eParamPrototype.add(lParamPrototype);
         return lParamPrototype;
     }

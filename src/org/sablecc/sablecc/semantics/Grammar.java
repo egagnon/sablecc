@@ -23,25 +23,26 @@ import org.sablecc.exception.*;
 import org.sablecc.sablecc.syntax3.node.*;
 
 public class Grammar
-        extends Declaration {
+        extends
+        Declaration {
 
     private AGrammar declaration;
 
-    private Map<Node, Object> nodeMap = new HashMap<Node, Object>();
+    private Map<Node, Object> nodeMap = new HashMap<>();
 
-    private Map<TIdentifier, Declaration> declarationResolutionMap = new HashMap<TIdentifier, Declaration>();
+    private Map<TIdentifier, Declaration> declarationResolutionMap = new HashMap<>();
 
-    private Map<Token, Expression> inlinedExpressionResolutionMap = new HashMap<Token, Expression>();
+    private Map<Token, Expression> inlinedExpressionResolutionMap = new HashMap<>();
 
-    private Map<TIdentifier, Alternative> alternativeResolutionMap = new HashMap<TIdentifier, Alternative>();
+    private Map<TIdentifier, Alternative> alternativeResolutionMap = new HashMap<>();
 
-    private Map<PAlternativeReference, AlternativeReference> alternativeReferenceResolutionMap = new HashMap<PAlternativeReference, AlternativeReference>();
+    private Map<PAlternativeReference, AlternativeReference> alternativeReferenceResolutionMap = new HashMap<>();
 
-    private Map<PElementReference, ElementReference> elementReferenceResolutionMap = new HashMap<PElementReference, ElementReference>();
+    private Map<PElementReference, ElementReference> elementReferenceResolutionMap = new HashMap<>();
 
-    private Map<PElementBody, Type> typeResolutionMap = new HashMap<PElementBody, Type>();
+    private Map<PElementBody, Type> typeResolutionMap = new HashMap<>();
 
-    private Map<PTransformationElement, TransformationElement> transformationElementMap = new HashMap<PTransformationElement, TransformationElement>();
+    private Map<PTransformationElement, TransformationElement> transformationElementMap = new HashMap<>();
 
     private NameSpace parserNameSpace = new NameSpace();
 
@@ -226,8 +227,8 @@ public class Grammar
             expression.setInternalName("." + this.nextInternalNameIndex++);
         }
 
-        Declaration previousDeclaration = this.parserNameSpace.get(expression
-                .getLookupName());
+        Declaration previousDeclaration = this.parserNameSpace
+                .get(expression.getLookupName());
 
         // only add new expression if it's a new declaration or if it redeclares
         // a normal expression
@@ -276,7 +277,8 @@ public class Grammar
             Production production,
             AAlternative declaration) {
 
-        Alternative alternative = new Alternative(this, production, declaration);
+        Alternative alternative = new Alternative(this, production,
+                declaration);
         if (this.nodeMap.containsKey(declaration)) {
             throw new InternalException("it was already added.");
         }
@@ -305,13 +307,15 @@ public class Grammar
             declaration = this.treeNameSpace.get(name);
 
             if (declaration == null) {
-                throw SemanticException.semanticError("No \"" + name
-                        + "\" has been declared.", nameIdentifier);
+                throw SemanticException.semanticError(
+                        "No \"" + name + "\" has been declared.",
+                        nameIdentifier);
             }
 
             if (!(declaration instanceof Expression)) {
-                throw SemanticException.semanticError("\"" + name
-                        + "\" is not an expression.", nameIdentifier);
+                throw SemanticException.semanticError(
+                        "\"" + name + "\" is not an expression.",
+                        nameIdentifier);
             }
 
             throw new InternalException(
@@ -319,8 +323,8 @@ public class Grammar
         }
 
         if (!(declaration instanceof Expression)) {
-            throw SemanticException.semanticError("\"" + name
-                    + "\" is not an expression.", nameIdentifier);
+            throw SemanticException.semanticError(
+                    "\"" + name + "\" is not an expression.", nameIdentifier);
         }
 
         if (this.declarationResolutionMap.containsKey(nameIdentifier)) {
@@ -340,12 +344,14 @@ public class Grammar
             declaration = this.parserNameSpace.get(name);
 
             if (declaration == null) {
-                throw SemanticException.semanticError("No \"" + name
-                        + "\" has been declared.", nameIdentifier);
+                throw SemanticException.semanticError(
+                        "No \"" + name + "\" has been declared.",
+                        nameIdentifier);
             }
 
-            throw SemanticException.semanticError("\"" + name
-                    + "\" is not a tree production.", nameIdentifier);
+            throw SemanticException.semanticError(
+                    "\"" + name + "\" is not a tree production.",
+                    nameIdentifier);
         }
 
         if (this.declarationResolutionMap.containsKey(nameIdentifier)) {
@@ -406,18 +412,19 @@ public class Grammar
             declaration = this.treeNameSpace.get(name);
 
             if (declaration == null) {
-                throw SemanticException.semanticError("No \"" + name
-                        + "\" has been declared.", identifier);
+                throw SemanticException.semanticError(
+                        "No \"" + name + "\" has been declared.", identifier);
             }
 
-            throw SemanticException.semanticError("\"" + name
-                    + "\" is not a parser production.", identifier);
+            throw SemanticException.semanticError(
+                    "\"" + name + "\" is not a parser production.", identifier);
         }
 
         if (!(declaration instanceof Production)
                 && !(declaration instanceof Expression)) {
-            throw SemanticException.semanticError("\"" + name
-                    + "\" is not a production or an expression.", identifier);
+            throw SemanticException.semanticError(
+                    "\"" + name + "\" is not a production or an expression.",
+                    identifier);
         }
 
         if (this.declarationResolutionMap.containsKey(identifier)) {
@@ -436,18 +443,19 @@ public class Grammar
             declaration = this.parserNameSpace.get(name);
 
             if (declaration == null) {
-                throw SemanticException.semanticError("No \"" + name
-                        + "\" has been declared.", identifier);
+                throw SemanticException.semanticError(
+                        "No \"" + name + "\" has been declared.", identifier);
             }
 
-            throw SemanticException.semanticError("\"" + name
-                    + "\" is not a tree production.", identifier);
+            throw SemanticException.semanticError(
+                    "\"" + name + "\" is not a tree production.", identifier);
         }
 
         if (!(declaration instanceof Production)
                 && !(declaration instanceof Expression)) {
-            throw SemanticException.semanticError("\"" + name
-                    + "\" is not a production or an expression.", identifier);
+            throw SemanticException.semanticError(
+                    "\"" + name + "\" is not a production or an expression.",
+                    identifier);
         }
 
         if (this.declarationResolutionMap.containsKey(identifier)) {
@@ -474,14 +482,16 @@ public class Grammar
 
         if (alternative == null) {
             if (production.hasAlternative(name)) {
-                throw SemanticException.semanticError("Production \""
-                        + production.getName() + "\" has two \"" + name
-                        + "\" alternatives (or more).", identifier);
+                throw SemanticException.semanticError(
+                        "Production \"" + production.getName() + "\" has two \""
+                                + name + "\" alternatives (or more).",
+                        identifier);
             }
 
             throw SemanticException.semanticError(
                     "\"" + name + "\" is not an alternative of production \""
-                            + production.getName() + "\".", identifier);
+                            + production.getName() + "\".",
+                    identifier);
         }
 
         if (this.alternativeResolutionMap.containsKey(identifier)) {
@@ -493,8 +503,8 @@ public class Grammar
     void resolveAlternativeReference(
             AUnnamedAlternativeReference alternativeReference) {
 
-        Production production = (Production) getDeclarationResolution(alternativeReference
-                .getProduction());
+        Production production = (Production) getDeclarationResolution(
+                alternativeReference.getProduction());
         Alternative alternative = production.getAlternative("");
 
         if (alternative == null) {
@@ -521,9 +531,9 @@ public class Grammar
         }
         this.alternativeReferenceResolutionMap.put(alternativeReference,
                 AlternativeReference.createDeclaredAlternativeReference(this,
-                        getAlternativeResolution(alternativeReference
-                                .getAlternative()), alternativeReference
-                                .getProduction()));
+                        getAlternativeResolution(
+                                alternativeReference.getAlternative()),
+                        alternativeReference.getProduction()));
     }
 
     void resolveElementReference(
@@ -637,13 +647,13 @@ public class Grammar
             declaration = this.treeNameSpace.get(name);
 
             if (declaration == null) {
-                throw SemanticException.semanticError("No \"" + name
-                        + "\" has been declared.", location);
+                throw SemanticException.semanticError(
+                        "No \"" + name + "\" has been declared.", location);
             }
 
             if (!(declaration instanceof Expression)) {
-                throw SemanticException.semanticError("\"" + name
-                        + "\" is not an expression.", location);
+                throw SemanticException.semanticError(
+                        "\"" + name + "\" is not an expression.", location);
             }
 
             throw new InternalException(
@@ -651,8 +661,8 @@ public class Grammar
         }
 
         if (!(declaration instanceof Expression)) {
-            throw SemanticException.semanticError("\"" + name
-                    + "\" is not an expression.", location);
+            throw SemanticException.semanticError(
+                    "\"" + name + "\" is not an expression.", location);
         }
 
         if (this.inlinedExpressionResolutionMap.containsKey(location)) {

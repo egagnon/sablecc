@@ -23,7 +23,8 @@ import org.sablecc.objectmacro.syntax3.analysis.*;
 import org.sablecc.objectmacro.syntax3.node.*;
 
 public class DeclarationCollector
-        extends DepthFirstAdapter {
+        extends
+        DepthFirstAdapter {
 
     private final GlobalIndex globalIndex;
 

@@ -17,7 +17,6 @@
 
 package org.sablecc.sablecc.launcher;
 
-import static org.sablecc.sablecc.launcher.Version.*;
 import static org.sablecc.util.Strictness.*;
 import static org.sablecc.util.Verbosity.*;
 
@@ -50,7 +49,7 @@ public class SableCC {
 
         try {
             try {
-                processCommandLine(args);
+                SableCC.processCommandLine(args);
             }
             finally {
                 System.out.flush();
@@ -66,9 +65,9 @@ public class SableCC {
             String pos = "" + e.getToken().getPos();
             int start = e.getMessage().indexOf(' ') + 1;
 
-            System.err.print(new MSyntaxError(line, pos, e.getToken()
-                    .getClass().getSimpleName().substring(1), e.getToken()
-                    .getText(), e.getMessage().substring(start)));
+            System.err.print(new MSyntaxError(line, pos,
+                    e.getToken().getClass().getSimpleName().substring(1),
+                    e.getToken().getText(), e.getMessage().substring(start)));
             System.err.flush();
             System.exit(1);
         }
@@ -77,8 +76,8 @@ public class SableCC {
             String pos = "" + e.getToken().getPos();
             int start = e.getMessage().indexOf(' ') + 1;
 
-            System.err.print(new MLexicalError(line, pos, e.getMessage()
-                    .substring(start)));
+            System.err.print(new MLexicalError(line, pos,
+                    e.getMessage().substring(start)));
             System.err.flush();
             System.exit(1);
         }
@@ -111,7 +110,8 @@ public class SableCC {
      */
     public static void processCommandLine(
             String[] arguments)
-            throws ParserException, LexerException {
+            throws ParserException,
+            LexerException {
 
         // default target is java
         final String defaultTarget = "java";
@@ -129,7 +129,7 @@ public class SableCC {
         Strictness strictness = STRICT;
 
         // supported targets
-        SortedSet<String> supportedTargets = new TreeSet<String>();
+        SortedSet<String> supportedTargets = new TreeSet<>();
         supportedTargets.add("java");
 
         // parse command line arguments
@@ -207,7 +207,7 @@ public class SableCC {
                 break;
 
             case VERSION:
-                System.out.println("SableCC version " + VERSION);
+                System.out.println("SableCC version " + Version.VERSION);
                 return;
 
             case HELP:
@@ -218,8 +218,8 @@ public class SableCC {
                 return;
 
             default:
-                throw new InternalException("unhandled option "
-                        + optionArgument.getOption());
+                throw new InternalException(
+                        "unhandled option " + optionArgument.getOption());
             }
         }
 
@@ -244,8 +244,8 @@ public class SableCC {
         File grammarFile = new File(fileNameArgument.getText());
 
         if (!grammarFile.exists()) {
-            throw LauncherException.missingGrammarFile(fileNameArgument
-                    .getText());
+            throw LauncherException
+                    .missingGrammarFile(fileNameArgument.getText());
         }
 
         if (!grammarFile.isFile()) {
@@ -255,11 +255,12 @@ public class SableCC {
         Trace trace = new Trace(verbosity);
 
         trace.informativeln();
-        trace.informativeln("SableCC version " + VERSION);
-        trace.informativeln("by Etienne M. Gagnon <egagnon@j-meg.com> and other contributors.");
+        trace.informativeln("SableCC version " + Version.VERSION);
+        trace.informativeln(
+                "by Etienne M. Gagnon <egagnon@j-meg.com> and other contributors.");
         trace.informativeln();
 
-        compileFile(grammarFile, targetLanguage, destinationDirectory,
+        SableCC.compileFile(grammarFile, targetLanguage, destinationDirectory,
                 destinationPackage, generateCode, strictness, trace);
     }
 
@@ -271,7 +272,8 @@ public class SableCC {
             final boolean generateCode,
             final Strictness strictness,
             final Trace trace)
-            throws ParserException, LexerException {
+            throws ParserException,
+            LexerException {
 
         if (grammarFile == null) {
             throw new InternalException("grammarFile may not be null");
@@ -312,13 +314,13 @@ public class SableCC {
             br.close();
             fr.close();
 
-            compileGrammar(sb.toString(), strictness, trace);
+            SableCC.compileGrammar(sb.toString(), strictness, trace);
 
             // TODO: implement
 
             /*
             Grammar grammar = compileGrammar(sb.toString(), strictness, trace);
-
+            
             if (generateCode) {
                 CodeGenerator codeGenerator = new CodeGenerator(grammar,
                         targetLanguage, destinationDirectory,
@@ -341,7 +343,9 @@ public class SableCC {
             final String text,
             final Strictness strictness,
             final Trace trace)
-            throws ParserException, LexerException, IOException {
+            throws ParserException,
+            LexerException,
+            IOException {
 
         if (text == null) {
             throw new InternalException("text may not be null");
@@ -357,8 +361,9 @@ public class SableCC {
 
         trace.verboseln(" Parsing");
 
-        Start ast = new Parser(new Lexer(new PushbackReader(new StringReader(
-                text), 1024))).parse();
+        Start ast = new Parser(
+                new Lexer(new PushbackReader(new StringReader(text), 1024)))
+                        .parse();
 
         trace.verboseln(" Verifying semantics");
 
@@ -368,17 +373,17 @@ public class SableCC {
 
         /*
         Grammar grammar = new Grammar(ast);
-
+        
         trace.verboseln(" Compiling lexer");
-
+        
         grammar.compileLexer(trace, strictness);
-
+        
         trace.verboseln(" Compiling parser");
-
+        
         if (grammar.getParser().getProductions().size() > 0) {
             grammar.compileParser(trace, strictness);
         }
-
+        
         return grammar;
          */
     }

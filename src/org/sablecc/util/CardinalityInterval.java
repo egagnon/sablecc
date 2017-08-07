@@ -22,7 +22,8 @@ import org.sablecc.sablecc.syntax3.analysis.*;
 import org.sablecc.sablecc.syntax3.node.*;
 
 public final class CardinalityInterval
-        extends DepthFirstAdapter {
+        extends
+        DepthFirstAdapter {
 
     private Bound lowerBound;
 

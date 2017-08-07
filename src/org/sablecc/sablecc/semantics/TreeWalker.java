@@ -21,7 +21,8 @@ import org.sablecc.sablecc.syntax3.analysis.*;
 import org.sablecc.sablecc.syntax3.node.*;
 
 public abstract class TreeWalker
-        extends DepthFirstAdapter {
+        extends
+        DepthFirstAdapter {
 
     public void visit(
             Node node) {

@@ -27,11 +27,11 @@ class LongestOperation {
 
     private Automaton newAutomaton;
 
-    private Map<Pair<State, SortedSet<State>>, State> stateMap = new HashMap<Pair<State, SortedSet<State>>, State>();
+    private Map<Pair<State, SortedSet<State>>, State> stateMap = new HashMap<>();
 
-    private SortedMap<State, Pair<State, SortedSet<State>>> progressMap = new TreeMap<State, Pair<State, SortedSet<State>>>();
+    private SortedMap<State, Pair<State, SortedSet<State>>> progressMap = new TreeMap<>();
 
-    private WorkSet<State> workSet = new WorkSet<State>();
+    private WorkSet<State> workSet = new WorkSet<>();
 
     LongestOperation(
             Automaton oldAutomaton) {
@@ -53,7 +53,7 @@ class LongestOperation {
         }
 
         {
-            Pair<State, SortedSet<State>> progress = new Pair<State, SortedSet<State>>(
+            Pair<State, SortedSet<State>> progress = new Pair<>(
                     oldAutomaton.getStartState(), new TreeSet<State>());
 
             this.stateMap.put(progress, this.newAutomaton.getStartState());
@@ -108,10 +108,11 @@ class LongestOperation {
         }
 
         SortedSet<State> sourceRejectStates = sourceProgress.getRight();
-        SortedSet<State> targetRejectStates = new TreeSet<State>();
+        SortedSet<State> targetRejectStates = new TreeSet<>();
 
         if (richSymbol.isLookahead()) {
-            RichSymbol normalRichSymbol = richSymbol.equals(RichSymbol.END) ? null
+            RichSymbol normalRichSymbol = richSymbol.equals(RichSymbol.END)
+                    ? null
                     : richSymbol.getSymbol().getNormalRichSymbol();
 
             if (normalRichSymbol != null) {
@@ -140,7 +141,7 @@ class LongestOperation {
             }
         }
 
-        Pair<State, SortedSet<State>> targetProgress = new Pair<State, SortedSet<State>>(
+        Pair<State, SortedSet<State>> targetProgress = new Pair<>(
                 oldTargetState, targetRejectStates);
 
         State newTargetState = this.stateMap.get(targetProgress);

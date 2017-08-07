@@ -170,8 +170,8 @@ public class ElementReference {
                             minMultiplicity = minMultiplicity
                                     .subtract(BigInteger.ONE);
                         }
-                        if (maxMultiplicity != null
-                                && maxMultiplicity.compareTo(BigInteger.ZERO) > 0) {
+                        if (maxMultiplicity != null && maxMultiplicity
+                                .compareTo(BigInteger.ZERO) > 0) {
                             maxMultiplicity = maxMultiplicity
                                     .subtract(BigInteger.ONE);
                         }

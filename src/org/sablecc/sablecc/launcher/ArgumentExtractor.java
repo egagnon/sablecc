@@ -28,7 +28,8 @@ import org.sablecc.sablecc.launcher.syntax3.node.*;
  * command-line argument.
  */
 class ArgumentExtractor
-        extends DepthFirstAdapter {
+        extends
+        DepthFirstAdapter {
 
     /** The provided list of option arguments. */
     private final List<OptionArgument> optionArguments;
@@ -96,8 +97,8 @@ class ArgumentExtractor
                 // yes
 
                 if (operand.getOperandText() != null) {
-                    this.optionArguments.add(new OptionArgument(option, operand
-                            .getOperandText().getText()));
+                    this.optionArguments.add(new OptionArgument(option,
+                            operand.getOperandText().getText()));
                 }
                 else {
                     this.optionArguments.add(new OptionArgument(option, ""));
@@ -156,8 +157,8 @@ class ArgumentExtractor
                 // yes
 
                 if (operand.getOperandText() != null) {
-                    this.optionArguments.add(new OptionArgument(option, operand
-                            .getOperandText().getText()));
+                    this.optionArguments.add(new OptionArgument(option,
+                            operand.getOperandText().getText()));
                 }
                 else {
                     this.optionArguments.add(new OptionArgument(option, ""));

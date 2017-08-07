@@ -35,9 +35,8 @@ public class AlternativeTransformation {
 
         this.grammar = grammar;
         this.declaration = declaration;
-        this.alternativeReference = grammar
-                .getAlternativeReferenceResolution(declaration
-                        .getAlternativeReference());
+        this.alternativeReference = grammar.getAlternativeReferenceResolution(
+                declaration.getAlternativeReference());
     }
 
     public Token getLocation() {
@@ -62,7 +61,7 @@ public class AlternativeTransformation {
     private void checkElementReferences() {
 
         // collect element references
-        final List<ElementReference> elementReferences = new LinkedList<ElementReference>();
+        final List<ElementReference> elementReferences = new LinkedList<>();
         this.declaration.apply(new TreeWalker() {
 
             @Override
@@ -127,16 +126,14 @@ public class AlternativeTransformation {
                                     "Expecting : " + type + "." + subtreeType,
                                     elementReference.getLocation());
                         }
-                        if (!type.equals(this.grammar
-                                .getTypeResolution(elementReference
-                                        .getElementBody()))) {
+                        if (!type.equals(this.grammar.getTypeResolution(
+                                elementReference.getElementBody()))) {
                             throw SemanticException.semanticError(
                                     "Expecting : " + type + "." + subtreeType,
                                     elementReference.getLocation());
                         }
-                        if (!subtreeType.equals(this.grammar
-                                .getTypeResolution(elementReference
-                                        .getSubtree()))) {
+                        if (!subtreeType.equals(this.grammar.getTypeResolution(
+                                elementReference.getSubtree()))) {
                             throw SemanticException.semanticError(
                                     "Expecting : " + type + "." + subtreeType,
                                     elementReference.getLocation());
@@ -173,8 +170,8 @@ public class AlternativeTransformation {
             throw SemanticException.semanticError("Expecting : " + type,
                     elementReference.getLocation());
         }
-        if (!type.equals(this.grammar.getTypeResolution(elementReference
-                .getElementBody()))) {
+        if (!type.equals(this.grammar
+                .getTypeResolution(elementReference.getElementBody()))) {
             throw SemanticException.semanticError("Expecting : " + type,
                     elementReference.getLocation());
         }
@@ -276,10 +273,11 @@ public class AlternativeTransformation {
 
         if (signatureTypeIterator.hasNext()) {
             Type signatureType = signatureTypeIterator.next();
-            throw SemanticException.semanticError(
-                    "Expecting a tranformation element of type "
-                            + signatureType + ".",
-                    this.declaration.getSemicolon());
+            throw SemanticException
+                    .semanticError(
+                            "Expecting a tranformation element of type "
+                                    + signatureType + ".",
+                            this.declaration.getSemicolon());
         }
 
     }

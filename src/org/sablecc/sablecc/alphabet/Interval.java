@@ -23,7 +23,8 @@ import org.sablecc.exception.*;
  * An interval is defined by a lower bound and an upper bound.
  */
 public class Interval
-        implements Comparable<Interval> {
+        implements
+        Comparable<Interval> {
 
     /**
      * The lower bound of this interval.

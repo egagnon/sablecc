@@ -17,8 +17,6 @@
 
 package org.sablecc.objectmacro.launcher;
 
-import static org.sablecc.objectmacro.launcher.Version.*;
-
 import java.io.*;
 import java.util.*;
 
@@ -60,7 +58,7 @@ public class ObjectMacro {
             String[] args) {
 
         try {
-            compile(args);
+            ObjectMacro.compile(args);
         }
         catch (CompilerException e) {
             System.err.print(e.getMessage());
@@ -69,10 +67,11 @@ public class ObjectMacro {
         }
         catch (ParserException e) {
             int start = e.getMessage().indexOf(' ');
-            System.err.print(new MSyntaxError(e.getToken().getLine() + "", e
-                    .getToken().getPos() + "", e.getToken().getClass()
-                    .getSimpleName().substring(1).toLowerCase(), e.getToken()
-                    .getText(), e.getMessage().substring(start)));
+            System.err.print(new MSyntaxError(e.getToken().getLine() + "",
+                    e.getToken().getPos() + "",
+                    e.getToken().getClass().getSimpleName().substring(1)
+                            .toLowerCase(),
+                    e.getToken().getText(), e.getMessage().substring(start)));
             System.err.flush();
             System.exit(1);
         }
@@ -87,8 +86,8 @@ public class ObjectMacro {
 
             start = e.getMessage().indexOf(' ') + 1;
 
-            System.err.print(new MLexicalError(line, pos, e.getMessage()
-                    .substring(start)));
+            System.err.print(new MLexicalError(line, pos,
+                    e.getMessage().substring(start)));
             System.err.flush();
             System.exit(1);
         }
@@ -120,7 +119,8 @@ public class ObjectMacro {
      */
     public static void compile(
             String[] arguments)
-            throws ParserException, LexerException {
+            throws ParserException,
+            LexerException {
 
         // default target is java
         String targetLanguage = "java";
@@ -196,7 +196,7 @@ public class ObjectMacro {
 
             case VERSION:
                 System.out.println("ObjectMacro, part of SableCC version "
-                        + VERSION);
+                        + Version.VERSION);
                 return;
 
             case HELP:
@@ -207,8 +207,8 @@ public class ObjectMacro {
                 return;
 
             default:
-                throw new InternalException("unhandled option "
-                        + optionArgument.getOption());
+                throw new InternalException(
+                        "unhandled option " + optionArgument.getOption());
             }
         }
 
@@ -216,10 +216,10 @@ public class ObjectMacro {
         case INFORMATIVE:
         case VERBOSE:
             System.out.println();
-            System.out.println("ObjectMacro, part of SableCC version "
-                    + VERSION);
-            System.out
-                    .println("by Etienne M. Gagnon <egagnon@j-meg.com> and other contributors.");
+            System.out.println(
+                    "ObjectMacro, part of SableCC version " + Version.VERSION);
+            System.out.println(
+                    "by Etienne M. Gagnon <egagnon@j-meg.com> and other contributors.");
             System.out.println();
             break;
         }
@@ -237,7 +237,8 @@ public class ObjectMacro {
         // check target
         if (!(targetLanguage.equals("java")
                 || targetLanguage.equals("intermediate")
-                || targetLanguage.equals("c") || targetLanguage.equals("scala"))) {
+                || targetLanguage.equals("c")
+                || targetLanguage.equals("scala"))) {
             throw CompilerException.unknownTarget(targetLanguage);
         }
 
@@ -259,7 +260,7 @@ public class ObjectMacro {
             throw CompilerException.macroNotFile(textArgument.getText());
         }
 
-        compile(macroFile, targetLanguage, destinationDirectory,
+        ObjectMacro.compile(macroFile, targetLanguage, destinationDirectory,
                 destinationPackage, generateCode, strictness, verbosity);
     }
 
@@ -274,7 +275,8 @@ public class ObjectMacro {
             boolean generateCode,
             Strictness strictness,
             Verbosity verbosity)
-            throws ParserException, LexerException {
+            throws ParserException,
+            LexerException {
 
         switch (verbosity) {
         case INFORMATIVE:
@@ -306,12 +308,13 @@ public class ObjectMacro {
             throw CompilerException.inputError(macroFile.toString(), e);
         }
 
-        GlobalIndex globalIndex = verifySemantics(ast, strictness, verbosity);
+        GlobalIndex globalIndex = ObjectMacro.verifySemantics(ast, strictness,
+                verbosity);
 
-        processSemantics(globalIndex, verbosity);
+        ObjectMacro.processSemantics(globalIndex, verbosity);
 
-        PIntermediateRepresentation intermediateAST = generateIntermediateAST(
-                globalIndex, verbosity);
+        PIntermediateRepresentation intermediateAST = ObjectMacro
+                .generateIntermediateAST(globalIndex, verbosity);
 
         IntermediateRepresentation ir = new IntermediateRepresentation(
                 intermediateAST, macroFile, destinationDirectory,
@@ -453,18 +456,18 @@ public class ObjectMacro {
             break;
         }
 
-        List<PText> texts = new LinkedList<PText>();
+        List<PText> texts = new LinkedList<>();
 
         for (TextBlock textBlock : globalIndex.getAllTextBlocks()) {
 
-            texts.add(createText(textBlock));
+            texts.add(ObjectMacro.createText(textBlock));
         }
 
-        List<PMacro> macros = new LinkedList<PMacro>();
+        List<PMacro> macros = new LinkedList<>();
 
         for (Macro macro : globalIndex.getAllMacros()) {
 
-            macros.add(createMacro(macro));
+            macros.add(ObjectMacro.createMacro(macro));
         }
 
         return new AIntermediateRepresentation(texts, macros);
@@ -475,7 +478,7 @@ public class ObjectMacro {
 
         TString name = new TString("'" + textBlock.getCamelCaseName() + "'");
 
-        List<TString> params = new LinkedList<TString>();
+        List<TString> params = new LinkedList<>();
         for (Param param : textBlock.getParams()) {
             params.add(new TString("'" + param.getCamelCaseName() + "'"));
         }
@@ -488,23 +491,23 @@ public class ObjectMacro {
             self_ref = new AFalseBoolean();
         }
 
-        List<TString> ancestor_refs = new LinkedList<TString>();
+        List<TString> ancestor_refs = new LinkedList<>();
         for (Scope referencedAncestor : textBlock.getReferencedAncestors()) {
-            TString ancestorName = new TString("'"
-                    + referencedAncestor.getCamelCaseName() + "'");
+            TString ancestorName = new TString(
+                    "'" + referencedAncestor.getCamelCaseName() + "'");
             ancestor_refs.add(ancestorName);
         }
 
-        List<PParamRef> param_refs = new LinkedList<PParamRef>();
+        List<PParamRef> param_refs = new LinkedList<>();
         for (Param referencedParam : textBlock.getReferencedParams()) {
-            TString paramName = new TString("'"
-                    + referencedParam.getCamelCaseName() + "'");
-            TString scopeName = new TString("'"
-                    + referencedParam.getScope().getCamelCaseName() + "'");
+            TString paramName = new TString(
+                    "'" + referencedParam.getCamelCaseName() + "'");
+            TString scopeName = new TString(
+                    "'" + referencedParam.getScope().getCamelCaseName() + "'");
             param_refs.add(new AParamRef(paramName, scopeName));
         }
 
-        List<PTextPart> text_parts = new LinkedList<PTextPart>();
+        List<PTextPart> text_parts = new LinkedList<>();
         {
             StringBuilder textBuilder = null;
 
@@ -528,8 +531,8 @@ public class ObjectMacro {
                 }
                 else if (pTextBlockBodyPart instanceof AEolTextBlockBodyPart) {
                     if (textBuilder != null) {
-                        text_parts.add(new AStringTextPart(new TString("'"
-                                + textBuilder.toString() + "'")));
+                        text_parts.add(new AStringTextPart(new TString(
+                                "'" + textBuilder.toString() + "'")));
                         textBuilder = null;
                     }
                     text_parts.add(new AEolTextPart());
@@ -552,8 +555,8 @@ public class ObjectMacro {
                     }
                     else if (c == 'n') {
                         if (textBuilder != null) {
-                            text_parts.add(new AStringTextPart(new TString("'"
-                                    + textBuilder.toString() + "'")));
+                            text_parts.add(new AStringTextPart(new TString(
+                                    "'" + textBuilder.toString() + "'")));
                             textBuilder = null;
                         }
                         text_parts.add(new AEolTextPart());
@@ -565,41 +568,41 @@ public class ObjectMacro {
                 else if (pTextBlockBodyPart instanceof AVarTextBlockBodyPart) {
                     AVarTextBlockBodyPart textBlockBodyPart = (AVarTextBlockBodyPart) pTextBlockBodyPart;
                     if (textBuilder != null) {
-                        text_parts.add(new AStringTextPart(new TString("'"
-                                + textBuilder.toString() + "'")));
+                        text_parts.add(new AStringTextPart(new TString(
+                                "'" + textBuilder.toString() + "'")));
                         textBuilder = null;
                     }
-                    text_parts.add(new AParamInsertTextPart(new TString("'"
-                            + Utils.toCamelCase(textBlockBodyPart.getVar())
-                            + "'")));
+                    text_parts.add(new AParamInsertTextPart(new TString(
+                            "'" + Utils.toCamelCase(textBlockBodyPart.getVar())
+                                    + "'")));
                 }
                 else if (pTextBlockBodyPart instanceof ATextInsertTextBlockBodyPart) {
                     ATextInsertTextBlockBodyPart textBlockBodyPart = (ATextInsertTextBlockBodyPart) pTextBlockBodyPart;
                     if (textBuilder != null) {
-                        text_parts.add(new AStringTextPart(new TString("'"
-                                + textBuilder.toString() + "'")));
+                        text_parts.add(new AStringTextPart(new TString(
+                                "'" + textBuilder.toString() + "'")));
                         textBuilder = null;
                     }
                     TextInsert textInsert = textBlock
                             .getTextInsert(textBlockBodyPart.getTextInsert());
-                    text_parts.add(new ATextInsertTextPart(createTextInsert(
-                            textInsert, textBlock)));
+                    text_parts.add(new ATextInsertTextPart(ObjectMacro
+                            .createTextInsert(textInsert, textBlock)));
                 }
                 else {
                     if (!(pTextBlockBodyPart instanceof ATextBlockTextBlockBodyPart)) {
                         throw new InternalException("unhandled case");
                     }
                     if (textBuilder != null) {
-                        text_parts.add(new AStringTextPart(new TString("'"
-                                + textBuilder.toString() + "'")));
+                        text_parts.add(new AStringTextPart(new TString(
+                                "'" + textBuilder.toString() + "'")));
                         textBuilder = null;
                     }
                 }
             }
 
             if (textBuilder != null) {
-                text_parts.add(new AStringTextPart(new TString("'"
-                        + textBuilder.toString() + "'")));
+                text_parts.add(new AStringTextPart(
+                        new TString("'" + textBuilder.toString() + "'")));
                 textBuilder = null;
             }
         }
@@ -615,17 +618,17 @@ public class ObjectMacro {
         TString name = new TString("'"
                 + textInsert.getInsertedTextBlock().getCamelCaseName() + "'");
 
-        List<PValue> args = new LinkedList<PValue>();
+        List<PValue> args = new LinkedList<>();
         for (PStaticValue staticValue : textInsert.getDeclaration()
                 .getStaticValues()) {
-            args.add(createValue(staticValue, context));
+            args.add(ObjectMacro.createValue(staticValue, context));
         }
 
-        List<TString> ancestor_refs = new LinkedList<TString>();
+        List<TString> ancestor_refs = new LinkedList<>();
         for (Scope ancestor : textInsert.getInsertedTextBlock()
                 .getReferencedAncestors()) {
-            ancestor_refs.add(new TString("'" + ancestor.getCamelCaseName()
-                    + "'"));
+            ancestor_refs
+                    .add(new TString("'" + ancestor.getCamelCaseName() + "'"));
         }
 
         return new ATextInsert(name, args, ancestor_refs);
@@ -638,21 +641,22 @@ public class ObjectMacro {
         if (pStaticValue instanceof ATextInsertStaticValue) {
             ATextInsertStaticValue staticValue = (ATextInsertStaticValue) pStaticValue;
 
-            TextInsert textInsert = context.getTextInsert(staticValue
-                    .getTextInsert());
-            return new ATextInsertValue(createTextInsert(textInsert, context));
+            TextInsert textInsert = context
+                    .getTextInsert(staticValue.getTextInsert());
+            return new ATextInsertValue(
+                    ObjectMacro.createTextInsert(textInsert, context));
         }
         else if (pStaticValue instanceof AVarStaticValue) {
             AVarStaticValue staticValue = (AVarStaticValue) pStaticValue;
 
-            return new AParamInsertValue(new TString("'"
-                    + Utils.toCamelCase(staticValue.getVar()) + "'"));
+            return new AParamInsertValue(new TString(
+                    "'" + Utils.toCamelCase(staticValue.getVar()) + "'"));
         }
         else if (pStaticValue instanceof AStringStaticValue) {
             AStringStaticValue staticValue = (AStringStaticValue) pStaticValue;
 
             return new AInlineTextValue(
-                    createInlineText(staticValue.getString()));
+                    ObjectMacro.createInlineText(staticValue.getString()));
         }
         else {
             throw new InternalException("unhandled case");
@@ -663,7 +667,7 @@ public class ObjectMacro {
             PString pString) {
 
         AString string = (AString) pString;
-        List<PInlineText> inlineTexts = new LinkedList<PInlineText>();
+        List<PInlineText> inlineTexts = new LinkedList<>();
         StringBuilder textBuilder = null;
 
         if (string.getParts().size() == 0) {
@@ -712,8 +716,8 @@ public class ObjectMacro {
                 }
                 else if (c == 'n') {
                     if (textBuilder != null) {
-                        inlineTexts.add(new AStringInlineText(new TString("'"
-                                + textBuilder.toString() + "'")));
+                        inlineTexts.add(new AStringInlineText(new TString(
+                                "'" + textBuilder.toString() + "'")));
                         textBuilder = null;
                     }
                     inlineTexts.add(new AEolInlineText());
@@ -728,8 +732,8 @@ public class ObjectMacro {
         }
 
         if (textBuilder != null) {
-            inlineTexts.add(new AStringInlineText(new TString("'"
-                    + textBuilder.toString() + "'")));
+            inlineTexts.add(new AStringInlineText(
+                    new TString("'" + textBuilder.toString() + "'")));
         }
 
         return inlineTexts;
@@ -748,7 +752,7 @@ public class ObjectMacro {
             is_public = new AFalseBoolean();
         }
 
-        List<TString> params = new LinkedList<TString>();
+        List<TString> params = new LinkedList<>();
         for (Param param : macro.getParams()) {
             params.add(new TString("'" + param.getCamelCaseName() + "'"));
         }
@@ -761,49 +765,49 @@ public class ObjectMacro {
             self_ref = new AFalseBoolean();
         }
 
-        List<TString> ancestor_refs = new LinkedList<TString>();
+        List<TString> ancestor_refs = new LinkedList<>();
         for (Scope referencedAncestor : macro.getReferencedAncestors()) {
-            TString ancestorName = new TString("'"
-                    + referencedAncestor.getCamelCaseName() + "'");
+            TString ancestorName = new TString(
+                    "'" + referencedAncestor.getCamelCaseName() + "'");
             ancestor_refs.add(ancestorName);
         }
 
-        List<PParamRef> param_refs = new LinkedList<PParamRef>();
+        List<PParamRef> param_refs = new LinkedList<>();
         for (Param referencedParam : macro.getReferencedParams()) {
-            TString paramName = new TString("'"
-                    + referencedParam.getCamelCaseName() + "'");
-            TString scopeName = new TString("'"
-                    + referencedParam.getScope().getCamelCaseName() + "'");
+            TString paramName = new TString(
+                    "'" + referencedParam.getCamelCaseName() + "'");
+            TString scopeName = new TString(
+                    "'" + referencedParam.getScope().getCamelCaseName() + "'");
             param_refs.add(new AParamRef(paramName, scopeName));
         }
 
-        List<TString> expands = new LinkedList<TString>();
+        List<TString> expands = new LinkedList<>();
         for (ExpandSignature signature : macro.getExpandSignatures()) {
             expands.add(new TString("'" + signature.toCamelCase() + "'"));
         }
 
-        List<PExpandedMacro> expanded_macros = new LinkedList<PExpandedMacro>();
+        List<PExpandedMacro> expanded_macros = new LinkedList<>();
         for (Macro implicitlyExpandedMacro : macro
                 .getImplicitlyExpandedMacros()) {
-            TString macroName = new TString("'"
-                    + implicitlyExpandedMacro.getCamelCaseName() + "'");
-            List<TString> macroParams = new LinkedList<TString>();
+            TString macroName = new TString(
+                    "'" + implicitlyExpandedMacro.getCamelCaseName() + "'");
+            List<TString> macroParams = new LinkedList<>();
             for (Param param : implicitlyExpandedMacro.getParams()) {
-                macroParams.add(new TString("'" + param.getCamelCaseName()
-                        + "'"));
+                macroParams
+                        .add(new TString("'" + param.getCamelCaseName() + "'"));
             }
-            List<TString> ancestors = new LinkedList<TString>();
+            List<TString> ancestors = new LinkedList<>();
             for (Scope ancestor : implicitlyExpandedMacro
                     .getReferencedAncestors()) {
-                TString ancestorName = new TString("'"
-                        + ancestor.getCamelCaseName() + "'");
+                TString ancestorName = new TString(
+                        "'" + ancestor.getCamelCaseName() + "'");
                 ancestors.add(ancestorName);
             }
-            List<TString> macroExpands = new LinkedList<TString>();
+            List<TString> macroExpands = new LinkedList<>();
             for (ExpandSignature signature : macro.getExpandSignatures()) {
                 if (signature.getMacroSet().contains(implicitlyExpandedMacro)) {
-                    macroExpands.add(new TString("'" + signature.toCamelCase()
-                            + "'"));
+                    macroExpands.add(
+                            new TString("'" + signature.toCamelCase() + "'"));
                 }
             }
             expanded_macros.add(new AExpandedMacro(macroName, macroParams,
@@ -811,32 +815,32 @@ public class ObjectMacro {
         }
         for (Macro explicitlyExpandedMacro : macro
                 .getExplicitlyExpandedMacros()) {
-            TString macroName = new TString("'"
-                    + explicitlyExpandedMacro.getCamelCaseName() + "'");
-            List<TString> macroParams = new LinkedList<TString>();
+            TString macroName = new TString(
+                    "'" + explicitlyExpandedMacro.getCamelCaseName() + "'");
+            List<TString> macroParams = new LinkedList<>();
             for (Param param : explicitlyExpandedMacro.getParams()) {
-                macroParams.add(new TString("'" + param.getCamelCaseName()
-                        + "'"));
+                macroParams
+                        .add(new TString("'" + param.getCamelCaseName() + "'"));
             }
-            List<TString> ancestors = new LinkedList<TString>();
+            List<TString> ancestors = new LinkedList<>();
             for (Scope ancestor : explicitlyExpandedMacro
                     .getReferencedAncestors()) {
-                TString ancestorName = new TString("'"
-                        + ancestor.getCamelCaseName() + "'");
+                TString ancestorName = new TString(
+                        "'" + ancestor.getCamelCaseName() + "'");
                 ancestors.add(ancestorName);
             }
-            List<TString> macroExpands = new LinkedList<TString>();
+            List<TString> macroExpands = new LinkedList<>();
             for (ExpandSignature signature : macro.getExpandSignatures()) {
                 if (signature.getMacroSet().contains(explicitlyExpandedMacro)) {
-                    macroExpands.add(new TString("'" + signature.toCamelCase()
-                            + "'"));
+                    macroExpands.add(
+                            new TString("'" + signature.toCamelCase() + "'"));
                 }
             }
             expanded_macros.add(new AExpandedMacro(macroName, macroParams,
                     ancestors, macroExpands));
         }
 
-        List<PMacroPart> macro_parts = new LinkedList<PMacroPart>();
+        List<PMacroPart> macro_parts = new LinkedList<>();
         {
             StringBuilder textBuilder = null;
 
@@ -859,8 +863,8 @@ public class ObjectMacro {
                 }
                 else if (pMacroBodyPart instanceof AEolMacroBodyPart) {
                     if (textBuilder != null) {
-                        macro_parts.add(new AStringMacroPart(new TString("'"
-                                + textBuilder.toString() + "'")));
+                        macro_parts.add(new AStringMacroPart(new TString(
+                                "'" + textBuilder.toString() + "'")));
                         textBuilder = null;
                     }
                     macro_parts.add(new AEolMacroPart());
@@ -890,44 +894,43 @@ public class ObjectMacro {
                         macro_parts.add(new AEolMacroPart());
                     }
                     else {
-                        throw new InternalException("unhandled case c = (" + c
-                                + ")");
+                        throw new InternalException(
+                                "unhandled case c = (" + c + ")");
                     }
                 }
                 else if (pMacroBodyPart instanceof AVarMacroBodyPart) {
                     AVarMacroBodyPart macroBodyPart = (AVarMacroBodyPart) pMacroBodyPart;
                     if (textBuilder != null) {
-                        macro_parts.add(new AStringMacroPart(new TString("'"
-                                + textBuilder.toString() + "'")));
+                        macro_parts.add(new AStringMacroPart(new TString(
+                                "'" + textBuilder.toString() + "'")));
                         textBuilder = null;
                     }
-                    macro_parts
-                            .add(new AParamInsertMacroPart(new TString("'"
-                                    + Utils.toCamelCase(macroBodyPart.getVar())
+                    macro_parts.add(new AParamInsertMacroPart(new TString(
+                            "'" + Utils.toCamelCase(macroBodyPart.getVar())
                                     + "'")));
                 }
                 else if (pMacroBodyPart instanceof ATextInsertMacroBodyPart) {
                     ATextInsertMacroBodyPart macroBodyPart = (ATextInsertMacroBodyPart) pMacroBodyPart;
                     if (textBuilder != null) {
-                        macro_parts.add(new AStringMacroPart(new TString("'"
-                                + textBuilder.toString() + "'")));
+                        macro_parts.add(new AStringMacroPart(new TString(
+                                "'" + textBuilder.toString() + "'")));
                         textBuilder = null;
                     }
-                    TextInsert textInsert = macro.getTextInsert(macroBodyPart
-                            .getTextInsert());
-                    macro_parts.add(new ATextInsertMacroPart(createTextInsert(
-                            textInsert, macro)));
+                    TextInsert textInsert = macro
+                            .getTextInsert(macroBodyPart.getTextInsert());
+                    macro_parts.add(new ATextInsertMacroPart(
+                            ObjectMacro.createTextInsert(textInsert, macro)));
                 }
                 else if (pMacroBodyPart instanceof AExpandMacroBodyPart) {
                     AExpandMacroBodyPart macroBodyPart = (AExpandMacroBodyPart) pMacroBodyPart;
                     if (textBuilder != null) {
-                        macro_parts.add(new AStringMacroPart(new TString("'"
-                                + textBuilder.toString() + "'")));
+                        macro_parts.add(new AStringMacroPart(new TString(
+                                "'" + textBuilder.toString() + "'")));
                         textBuilder = null;
                     }
                     Expand expand = macro.getExpand(macroBodyPart.getExpand());
-                    TString expandName = new TString("'"
-                            + expand.getSignature().toCamelCase() + "'");
+                    TString expandName = new TString(
+                            "'" + expand.getSignature().toCamelCase() + "'");
                     PValue none = null;
                     PValue separator = null;
                     PValue before_first = null;
@@ -938,43 +941,44 @@ public class ObjectMacro {
                     PValue after_many = null;
 
                     if (expand.getNone() != null) {
-                        none = createValue(expand.getNone().getStaticValue(),
-                                macro);
+                        none = ObjectMacro.createValue(
+                                expand.getNone().getStaticValue(), macro);
                     }
 
                     if (expand.getSeparator() != null) {
-                        separator = createValue(expand.getSeparator()
-                                .getStaticValue(), macro);
+                        separator = ObjectMacro.createValue(
+                                expand.getSeparator().getStaticValue(), macro);
                     }
 
                     if (expand.getBeforeFirst() != null) {
-                        before_first = createValue(expand.getBeforeFirst()
-                                .getStaticValue(), macro);
+                        before_first = ObjectMacro.createValue(
+                                expand.getBeforeFirst().getStaticValue(),
+                                macro);
                     }
 
                     if (expand.getAfterLast() != null) {
-                        after_last = createValue(expand.getAfterLast()
-                                .getStaticValue(), macro);
+                        after_last = ObjectMacro.createValue(
+                                expand.getAfterLast().getStaticValue(), macro);
                     }
 
                     if (expand.getBeforeOne() != null) {
-                        before_one = createValue(expand.getBeforeOne()
-                                .getStaticValue(), macro);
+                        before_one = ObjectMacro.createValue(
+                                expand.getBeforeOne().getStaticValue(), macro);
                     }
 
                     if (expand.getAfterOne() != null) {
-                        after_one = createValue(expand.getAfterOne()
-                                .getStaticValue(), macro);
+                        after_one = ObjectMacro.createValue(
+                                expand.getAfterOne().getStaticValue(), macro);
                     }
 
                     if (expand.getBeforeMany() != null) {
-                        before_many = createValue(expand.getBeforeMany()
-                                .getStaticValue(), macro);
+                        before_many = ObjectMacro.createValue(
+                                expand.getBeforeMany().getStaticValue(), macro);
                     }
 
                     if (expand.getAfterMany() != null) {
-                        after_many = createValue(expand.getAfterMany()
-                                .getStaticValue(), macro);
+                        after_many = ObjectMacro.createValue(
+                                expand.getAfterMany().getStaticValue(), macro);
                     }
 
                     macro_parts.add(new AExpandInsertMacroPart(
@@ -985,12 +989,12 @@ public class ObjectMacro {
                 else if (pMacroBodyPart instanceof AMacroMacroBodyPart) {
                     AMacroMacroBodyPart macroBodyPart = (AMacroMacroBodyPart) pMacroBodyPart;
                     if (textBuilder != null) {
-                        macro_parts.add(new AStringMacroPart(new TString("'"
-                                + textBuilder.toString() + "'")));
+                        macro_parts.add(new AStringMacroPart(new TString(
+                                "'" + textBuilder.toString() + "'")));
                         textBuilder = null;
                     }
-                    Macro subMacro = macro
-                            .getMacro(((org.sablecc.objectmacro.syntax3.node.AMacro) macroBodyPart
+                    Macro subMacro = macro.getMacro(
+                            ((org.sablecc.objectmacro.syntax3.node.AMacro) macroBodyPart
                                     .getMacro()).getName());
                     if (subMacro.isImplicitlyExpanded()) {
                         TString expandName = new TString("'"
@@ -1006,16 +1010,16 @@ public class ObjectMacro {
                         throw new InternalException("unhandled case");
                     }
                     if (textBuilder != null) {
-                        macro_parts.add(new AStringMacroPart(new TString("'"
-                                + textBuilder.toString() + "'")));
+                        macro_parts.add(new AStringMacroPart(new TString(
+                                "'" + textBuilder.toString() + "'")));
                         textBuilder = null;
                     }
                 }
             }
 
             if (textBuilder != null) {
-                macro_parts.add(new AStringMacroPart(new TString("'"
-                        + textBuilder.toString() + "'")));
+                macro_parts.add(new AStringMacroPart(
+                        new TString("'" + textBuilder.toString() + "'")));
                 textBuilder = null;
             }
         }

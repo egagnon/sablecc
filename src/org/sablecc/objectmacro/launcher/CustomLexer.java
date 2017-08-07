@@ -23,7 +23,8 @@ import org.sablecc.objectmacro.syntax3.lexer.*;
 import org.sablecc.objectmacro.syntax3.node.*;
 
 public class CustomLexer
-        extends Lexer {
+        extends
+        Lexer {
 
     private State previousState = null;
 
@@ -39,7 +40,8 @@ public class CustomLexer
 
     @Override
     protected void filter()
-            throws LexerException, IOException {
+            throws LexerException,
+            IOException {
 
         if (this.token instanceof TMacroCommand
                 || this.token instanceof TTextBlockCommand) {

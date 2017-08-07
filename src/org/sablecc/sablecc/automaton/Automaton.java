@@ -17,9 +17,6 @@
 
 package org.sablecc.sablecc.automaton;
 
-import static java.math.BigInteger.*;
-import static org.sablecc.util.UsefulStaticImports.*;
-
 import java.math.*;
 import java.util.*;
 
@@ -63,9 +60,10 @@ public final class Automaton {
         protected Set<State> getChildrenNoCache(
                 State sourceState) {
 
-            Set<State> children = new LinkedHashSet<State>();
+            Set<State> children = new LinkedHashSet<>();
 
-            for (RichSymbol richSymbol : sourceState.getTransitions().keySet()) {
+            for (RichSymbol richSymbol : sourceState.getTransitions()
+                    .keySet()) {
                 if (!richSymbol.isLookahead()) {
                     continue;
                 }
@@ -121,10 +119,10 @@ public final class Automaton {
      */
     private void init() {
 
-        this.states = new TreeSet<State>();
+        this.states = new TreeSet<>();
         this.startState = new State(this);
-        this.markers = new TreeSet<Marker>();
-        this.acceptations = new TreeSet<Acceptation>();
+        this.markers = new TreeSet<>();
+        this.acceptations = new TreeSet<>();
         this.isStable = false;
     }
 
@@ -234,7 +232,7 @@ public final class Automaton {
             sb.append("Automaton:{");
 
             for (State state : this.states) {
-                sb.append(LINE_SEPARATOR);
+                sb.append(UsefulStaticImports.LINE_SEPARATOR);
                 sb.append("    ");
 
                 if (state == this.startState) {
@@ -250,17 +248,17 @@ public final class Automaton {
                     SortedSet<State> targets = entry.getValue();
 
                     for (State target : targets) {
-                        sb.append(LINE_SEPARATOR);
+                        sb.append(UsefulStaticImports.LINE_SEPARATOR);
                         sb.append("        ");
-                        sb.append(richSymbol == null ? "EPSILON" : richSymbol
-                                .toString());
+                        sb.append(richSymbol == null ? "EPSILON"
+                                : richSymbol.toString());
                         sb.append(" -> state_");
                         sb.append(target.getId());
                     }
                 }
             }
 
-            sb.append(LINE_SEPARATOR);
+            sb.append(UsefulStaticImports.LINE_SEPARATOR);
             sb.append("}");
 
             this.toString = sb.toString();
@@ -462,13 +460,13 @@ public final class Automaton {
             newAutomaton.addAcceptation(acceptation);
         }
 
-        SortedMap<State, State> oldStateToNewStateMap = new TreeMap<State, State>();
-        SortedMap<State, State> newStateToOldStateMap = new TreeMap<State, State>();
+        SortedMap<State, State> oldStateToNewStateMap = new TreeMap<>();
+        SortedMap<State, State> newStateToOldStateMap = new TreeMap<>();
 
-        oldStateToNewStateMap
-                .put(getStartState(), newAutomaton.getStartState());
-        newStateToOldStateMap
-                .put(newAutomaton.getStartState(), getStartState());
+        oldStateToNewStateMap.put(getStartState(),
+                newAutomaton.getStartState());
+        newStateToOldStateMap.put(newAutomaton.getStartState(),
+                getStartState());
 
         for (State oldState : getStates()) {
             if (oldState.equals(getStartState())) {
@@ -529,22 +527,23 @@ public final class Automaton {
             throw new InternalException("invalid operation");
         }
 
-        SortedSet<State> reachableStates = new TreeSet<State>();
-        SortedSet<Acceptation> usefulAcceptations = new TreeSet<Acceptation>();
+        SortedSet<State> reachableStates = new TreeSet<>();
+        SortedSet<Acceptation> usefulAcceptations = new TreeSet<>();
 
-        WorkSet<State> workSet = new WorkSet<State>();
+        WorkSet<State> workSet = new WorkSet<>();
         workSet.add(getStartState());
 
         Automaton newAutomaton = new Automaton(getAlphabet());
-        SortedMap<State, State> oldStatetoNewStateMap = new TreeMap<State, State>();
+        SortedMap<State, State> oldStatetoNewStateMap = new TreeMap<>();
 
         while (workSet.hasNext()) {
             State reachableState = workSet.next();
 
             reachableStates.add(reachableState);
 
-            State newState = reachableState == getStartState() ? newAutomaton
-                    .getStartState() : new State(newAutomaton);
+            State newState = reachableState == getStartState()
+                    ? newAutomaton.getStartState()
+                    : new State(newAutomaton);
             oldStatetoNewStateMap.put(reachableState, newState);
 
             for (Acceptation usefulAcceptation : reachableState
@@ -572,8 +571,8 @@ public final class Automaton {
                 for (State oldTargetState : oldTargetStates) {
                     State newTargetState = oldStatetoNewStateMap
                             .get(oldTargetState);
-                    newSourceState
-                            .addTransition(entry.getKey(), newTargetState);
+                    newSourceState.addTransition(entry.getKey(),
+                            newTargetState);
                 }
             }
 
@@ -613,11 +612,12 @@ public final class Automaton {
         Automaton newAutomaton = new Automaton(getAlphabet());
         newAutomaton.addAcceptation(acceptation);
 
-        SortedMap<State, State> oldStatetoNewStateMap = new TreeMap<State, State>();
+        SortedMap<State, State> oldStatetoNewStateMap = new TreeMap<>();
 
         for (State oldState : getStates()) {
-            State newState = oldState == getStartState() ? newAutomaton
-                    .getStartState() : new State(newAutomaton);
+            State newState = oldState == getStartState()
+                    ? newAutomaton.getStartState()
+                    : new State(newAutomaton);
 
             oldStatetoNewStateMap.put(oldState, newState);
 
@@ -704,7 +704,7 @@ public final class Automaton {
             throw new InternalException("this automaton is not yet stable");
         }
 
-        return or(getEpsilonLookAnyStarEnd());
+        return or(Automaton.getEpsilonLookAnyStarEnd());
     }
 
     public Automaton oneOrMore() {
@@ -768,16 +768,17 @@ public final class Automaton {
             throw new InternalException("this automaton is not yet stable");
         }
 
-        if (n.compareTo(ZERO) < 0) {
+        if (n.compareTo(BigInteger.ZERO) < 0) {
             throw new InternalException("n may not be negative");
         }
 
-        if (n.compareTo(ZERO) == 0) {
-            return getEpsilonLookAnyStarEnd();
+        if (n.compareTo(BigInteger.ZERO) == 0) {
+            return Automaton.getEpsilonLookAnyStarEnd();
         }
 
         Automaton newAutomaton = this;
-        for (BigInteger i = ONE; i.compareTo(n) < 0; i = i.add(ONE)) {
+        for (BigInteger i = BigInteger.ONE; i.compareTo(n) < 0; i = i
+                .add(BigInteger.ONE)) {
             newAutomaton = newAutomaton.concat(this);
         }
 
@@ -800,19 +801,20 @@ public final class Automaton {
             throw new InternalException("automaton is not yet stable");
         }
 
-        if (n.compareTo(ZERO) < 0) {
+        if (n.compareTo(BigInteger.ZERO) < 0) {
             throw new InternalException("n may not be negative");
         }
 
-        if (n.compareTo(ZERO) == 0) {
-            return getEpsilonLookAnyStarEnd();
+        if (n.compareTo(BigInteger.ZERO) == 0) {
+            return Automaton.getEpsilonLookAnyStarEnd();
         }
 
-        if (n.compareTo(ONE) == 0) {
+        if (n.compareTo(BigInteger.ONE) == 0) {
             return this;
         }
 
-        return concat(automaton.concat(this).nTimes(n.subtract(ONE)));
+        return concat(
+                automaton.concat(this).nTimes(n.subtract(BigInteger.ONE)));
     }
 
     public Automaton nOrMore(
@@ -822,7 +824,7 @@ public final class Automaton {
             throw new InternalException("this automaton is not yet stable");
         }
 
-        if (n.compareTo(ZERO) < 0) {
+        if (n.compareTo(BigInteger.ZERO) < 0) {
             throw new InternalException("n may not be negative");
         }
 
@@ -845,19 +847,20 @@ public final class Automaton {
             throw new InternalException("automaton is not yet stable");
         }
 
-        if (n.compareTo(ZERO) < 0) {
+        if (n.compareTo(BigInteger.ZERO) < 0) {
             throw new InternalException("n may not be negative");
         }
 
-        if (n.compareTo(ZERO) == 0) {
+        if (n.compareTo(BigInteger.ZERO) == 0) {
             return zeroOrMoreWithSeparator(automaton);
         }
 
-        if (n.compareTo(ONE) == 0) {
+        if (n.compareTo(BigInteger.ONE) == 0) {
             return oneOrMoreWithSeparator(automaton);
         }
 
-        return concat(automaton.concat(this).nOrMore(n.subtract(ONE)));
+        return concat(
+                automaton.concat(this).nOrMore(n.subtract(BigInteger.ONE)));
     }
 
     public Automaton nToM(
@@ -868,7 +871,7 @@ public final class Automaton {
             throw new InternalException("this automaton is not yet stable");
         }
 
-        if (n.compareTo(ZERO) < 0) {
+        if (n.compareTo(BigInteger.ZERO) < 0) {
             throw new InternalException("n may not be negative");
         }
 
@@ -876,9 +879,9 @@ public final class Automaton {
             throw new InternalException("m may not be smaller than n");
         }
 
-        Automaton tailAutomaton = getEpsilonLookAnyStarEnd();
+        Automaton tailAutomaton = Automaton.getEpsilonLookAnyStarEnd();
 
-        for (BigInteger i = n; i.compareTo(m) < 0; i = i.add(ONE)) {
+        for (BigInteger i = n; i.compareTo(m) < 0; i = i.add(BigInteger.ONE)) {
             tailAutomaton = tailAutomaton.concat(this).zeroOrOne();
         }
 
@@ -902,7 +905,7 @@ public final class Automaton {
             throw new InternalException("automaton is not yet stable");
         }
 
-        if (n.compareTo(ZERO) < 0) {
+        if (n.compareTo(BigInteger.ZERO) < 0) {
             throw new InternalException("n may not be negative");
         }
 
@@ -914,10 +917,11 @@ public final class Automaton {
             return nTimesWithSeparator(automaton, n);
         }
 
-        Automaton tailAutomaton = getEpsilonLookAnyStarEnd();
+        Automaton tailAutomaton = Automaton.getEpsilonLookAnyStarEnd();
 
-        if (n.compareTo(ZERO) == 0) {
-            for (BigInteger i = ONE; i.compareTo(m) < 0; i = i.add(ONE)) {
+        if (n.compareTo(BigInteger.ZERO) == 0) {
+            for (BigInteger i = BigInteger.ONE; i.compareTo(m) < 0; i = i
+                    .add(BigInteger.ONE)) {
                 tailAutomaton = tailAutomaton.concat(automaton.concat(this))
                         .zeroOrOne();
             }
@@ -925,7 +929,7 @@ public final class Automaton {
             return concat(tailAutomaton).zeroOrOne();
         }
 
-        for (BigInteger i = n; i.compareTo(m) < 0; i = i.add(ONE)) {
+        for (BigInteger i = n; i.compareTo(m) < 0; i = i.add(BigInteger.ONE)) {
             tailAutomaton = tailAutomaton.concat(automaton.concat(this))
                     .zeroOrOne();
         }
@@ -966,8 +970,8 @@ public final class Automaton {
             throw new InternalException("automaton is not yet stable");
         }
 
-        Automaton lookAutomaton = getEpsilonLookAnyStarEnd().except(
-                getEpsilonLookAnyStarEnd().look(automaton));
+        Automaton lookAutomaton = Automaton.getEpsilonLookAnyStarEnd()
+                .except(Automaton.getEpsilonLookAnyStarEnd().look(automaton));
         return look(lookAutomaton);
     }
 
@@ -997,17 +1001,17 @@ public final class Automaton {
         Automaton newAutomaton = new Automaton(combinedAutomaton.getAlphabet());
         newAutomaton.addAcceptation(Acceptation.ACCEPT);
 
-        SortedMap<State, State> oldStatetoNewStateMap = new TreeMap<State, State>();
+        SortedMap<State, State> oldStatetoNewStateMap = new TreeMap<>();
 
         for (State oldState : combinedAutomaton.getStates()) {
-            State newState = oldState == combinedAutomaton.getStartState() ? newAutomaton
-                    .getStartState() : new State(newAutomaton);
+            State newState = oldState == combinedAutomaton.getStartState()
+                    ? newAutomaton.getStartState()
+                    : new State(newAutomaton);
 
             oldStatetoNewStateMap.put(oldState, newState);
 
-            if (oldState.getAcceptations().size() == 1
-                    && oldState.getAcceptations().first()
-                            .equals(leftAcceptation)) {
+            if (oldState.getAcceptations().size() == 1 && oldState
+                    .getAcceptations().first().equals(leftAcceptation)) {
                 newState.addAcceptation(Acceptation.ACCEPT);
             }
         }
@@ -1056,11 +1060,12 @@ public final class Automaton {
         Automaton newAutomaton = new Automaton(combinedAutomaton.getAlphabet());
         newAutomaton.addAcceptation(Acceptation.ACCEPT);
 
-        SortedMap<State, State> oldStatetoNewStateMap = new TreeMap<State, State>();
+        SortedMap<State, State> oldStatetoNewStateMap = new TreeMap<>();
 
         for (State oldState : combinedAutomaton.getStates()) {
-            State newState = oldState == combinedAutomaton.getStartState() ? newAutomaton
-                    .getStartState() : new State(newAutomaton);
+            State newState = oldState == combinedAutomaton.getStartState()
+                    ? newAutomaton.getStartState()
+                    : new State(newAutomaton);
 
             oldStatetoNewStateMap.put(oldState, newState);
 
@@ -1218,7 +1223,7 @@ public final class Automaton {
     /** Collect all states associated with each acceptation. */
     public Map<Acceptation, Set<State>> collectAcceptationStates() {
 
-        Map<Acceptation, Set<State>> result = new HashMap<Acceptation, Set<State>>();
+        Map<Acceptation, Set<State>> result = new HashMap<>();
         for (State state : getStates()) {
             for (Acceptation acceptation : state.getAcceptations()) {
                 if (acceptation == Acceptation.ACCEPT) {
@@ -1226,7 +1231,7 @@ public final class Automaton {
                 }
                 Set<State> set = result.get(acceptation);
                 if (set == null) {
-                    set = new TreeSet<State>();
+                    set = new TreeSet<>();
                     result.put(acceptation, set);
                 }
                 set.add(state);
@@ -1238,10 +1243,10 @@ public final class Automaton {
     /** Find an example of a shortest word for each state of the automaton. */
     public Map<State, String> collectShortestWords() {
 
-        WorkSet<State> todo = new WorkSet<State>();
-        Map<State, State> prev = new HashMap<State, State>();
-        Map<State, String> result = new HashMap<State, String>();
-        Set<State> inlook = new HashSet<State>();
+        WorkSet<State> todo = new WorkSet<>();
+        Map<State, State> prev = new HashMap<>();
+        Map<State, String> result = new HashMap<>();
+        Set<State> inlook = new HashSet<>();
         State start = getStartState();
         prev.put(start, null);
         result.put(start, "");
@@ -1297,13 +1302,13 @@ public final class Automaton {
             throw new InternalException("invalid operation");
         }
 
-        ComponentFinder<State> componentFinder = new ComponentFinder<State>(
-                getStates(), lookaheadProgeny);
+        ComponentFinder<State> componentFinder = new ComponentFinder<>(
+                getStates(), Automaton.lookaheadProgeny);
 
         for (State state : getStates()) {
             State representative = componentFinder.getRepresentative(state);
-            state.setIsCyclic(componentFinder.getReach(representative)
-                    .contains(state));
+            state.setIsCyclic(
+                    componentFinder.getReach(representative).contains(state));
         }
     }
 
@@ -1313,7 +1318,7 @@ public final class Automaton {
      * result are new objects (the states of newAccepts refers to the one in the
      * current automaton). 2) the acceptation objects of newAccepts are reused
      * in the new automaton.
-     * */
+     */
     public Automaton resetAcceptations(
             Map<State, Acceptation> newAccepts) {
 
@@ -1337,7 +1342,7 @@ public final class Automaton {
         Automaton oldAutomaton = this;
         Automaton newAutomaton = new Automaton(oldAutomaton.getAlphabet());
 
-        SortedMap<State, State> oldStatetoNewStateMap = new TreeMap<State, State>();
+        SortedMap<State, State> oldStatetoNewStateMap = new TreeMap<>();
 
         // Duplicate all states
         for (State oldState : oldAutomaton.getStates()) {

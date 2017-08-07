@@ -23,7 +23,8 @@ import org.sablecc.exception.*;
  * A marker is used to mark states as starting point for back counts.
  */
 public class Marker
-        implements Comparable<Marker> {
+        implements
+        Comparable<Marker> {
 
     /**
      * The name of this marker.
