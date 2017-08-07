@@ -162,10 +162,7 @@ Tokens
 
   blank = ascii_pattern_white_space+;
 
-  line_comment = '//' line_comment_char* ascii_newline?;
-
-  long_comment = '/*' [long_comment_char + '/']*
-                 ('*' (long_comment_char [long_comment_char + '/']*)?)* '*/';
+  comment = '#' line_comment_char*;
 
   ctrl_z = 0x001A;
 
@@ -182,7 +179,7 @@ Tokens
 
 Ignored Tokens
 
-  blank, line_comment, long_comment;
+  blank, comment;
 
 Productions
 
