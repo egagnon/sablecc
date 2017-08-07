@@ -136,7 +136,12 @@ public class Version {
 }
 </echo>
 
-    <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="true" excludes="org/sablecc/sablecc/codegeneration/**,org/sablecc/sablecc/core/**,org/sablecc/sablecc/oldgrammar/**,org/sablecc/sablecc/oldlrautomaton/**" />
+    <javac
+            srcdir="${src.dir}"
+            destdir="${classes.dir}"
+            debug="true"
+            excludes="org/sablecc/sablecc/codegeneration/**,org/sablecc/sablecc/core/**,org/sablecc/sablecc/oldgrammar/**,org/sablecc/sablecc/oldlrautomaton/**"
+            includeantruntime="false" />
 
     <copy todir="${classes.dir}">
       <fileset dir="${src.dir}">
